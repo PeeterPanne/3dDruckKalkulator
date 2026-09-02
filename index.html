@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#111827">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="3D Kalkulator">
+<link rel="manifest" href="manifest.json">
+<title>3D Druck Kalkulator</title>
+<style>
+:root{--bg:#f3f4f6;--card:#fff;--text:#111827;--muted:#6b7280;--line:#e5e7eb;--accent:#111827;--soft:#eef0f3}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",sans-serif;color:var(--text)}
+.app{max-width:680px;margin:auto;padding:env(safe-area-inset-top) 16px calc(24px + env(safe-area-inset-bottom))}
+header{padding:22px 4px 16px;display:flex;justify-content:space-between;align-items:center}
+h1{font-size:28px;margin:0 0 3px;letter-spacing:-.7px}.sub{color:var(--muted);font-size:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:18px;margin-bottom:14px;box-shadow:0 4px 18px rgba(17,24,39,.04)}
+label{display:block;font-size:13px;font-weight:600;color:var(--muted);margin:0 0 7px}
+input,select{width:100%;height:48px;border:1px solid var(--line);border-radius:13px;background:#fafafa;padding:0 13px;font-size:16px;color:var(--text);outline:none}
+input:focus,select:focus{border-color:#9ca3af;box-shadow:0 0 0 3px #eef0f3}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.full{grid-column:1/-1}
+.mode{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;background:var(--soft);padding:5px;border-radius:15px}
+.mode button{border:0;background:transparent;border-radius:11px;padding:11px 5px;font-weight:700;color:var(--muted);font-size:13px}
+.mode button.active{background:#fff;color:var(--text);box-shadow:0 2px 7px rgba(0,0,0,.08)}
+.result{background:#111827;color:#fff;border-radius:22px;padding:21px;margin-bottom:14px}
+.result .label{font-size:13px;opacity:.7}.price{font-size:40px;font-weight:800;letter-spacing:-1.5px;margin-top:4px}
+.resultrow{display:flex;justify-content:space-between;padding-top:13px;margin-top:13px;border-top:1px solid rgba(255,255,255,.14);font-size:14px}
+.sectiontitle{font-size:16px;font-weight:800;margin-bottom:13px}.muted{color:var(--muted);font-size:12px;line-height:1.45}
+details summary{cursor:pointer;font-weight:800;list-style:none}details summary::-webkit-details-marker{display:none}
+small{color:var(--muted)}.reset{border:0;background:var(--soft);border-radius:12px;padding:9px 12px;font-weight:700}
+@media(max-width:430px){.mode button{font-size:11px}.grid{grid-template-columns:1fr}.full{grid-column:auto}}
+</style>
+</head>
+<body>
+<div class="app">
+<header><div><h1>3D Kalkulator</h1><div class="sub">Dein Bambu Lab Druckkostenrechner</div></div><button class="reset" id="reset">↺</button></header>
+
+<div class="card">
+<div class="sectiontitle">Für wen wird gedruckt?</div>
+<div class="mode" id="modes">
+<button data-v="friend">Freund</button><button data-v="colleague">Kollege</button><button data-v="stranger" class="active">Fremder</button><button data-v="business">Gewerblich</button>
+</div>
+</div>
+
+<div class="card">
+<div class="sectiontitle">Druck</div>
+<div class="grid">
+<div><label>Filament (g)</label><input id="grams" type="number" value="163" min="0" step="1"></div>
+<div><label>Filamentpreis €/g</label><input id="fp" type="number" value="0.0173" min="0" step="0.0001"></div>
+<div><label>Druckzeit (Std.)</label><input id="hours" type="number" value="13.62" min="0" step="0.01"></div>
+<div><label>Druckplatten / Starts</label><input id="plates" type="number" value="1" min="0" step="1"></div>
+<div><label>Modelldatei / Lizenz (€)</label><input id="file" type="number" value="0" min="0" step="0.01"></div>
+<div><label>Sonstige Kosten (€)</label><input id="extra" type="number" value="0" min="0" step="0.01"></div>
+</div>
+</div>
+
+<div class="card">
+<div class="sectiontitle">Handarbeit</div>
+<div class="grid">
+<div><label>Konstruktion (Std.)</label><input id="design" type="number" value="0" min="0" step=".1"></div>
+<div><label>Nachbearbeitung (Std.)</label><input id="finish" type="number" value="0" min="0" step=".1"></div>
+</div>
+</div>
+
+<div class="result">
+<div class="label">Empfohlener Verkaufspreis</div>
+<div class="price" id="price">0,00 €</div>
+<div class="resultrow"><span>Selbstkosten</span><strong id="self">0,00 €</strong></div>
+<div class="resultrow"><span>Aufschlag / Rabatt</span><strong id="markup">+35 %</strong></div>
+</div>
+
+<details class="card">
+<summary>⚙️ Kalkulationswerte</summary>
+<div class="grid" style="margin-top:16px">
+<div><label>Strom €/kWh</label><input id="powerprice" value="0.35" type="number" step=".01"></div>
+<div><label>Druckerleistung W</label><input id="watts" value="180" type="number"></div>
+<div><label>Abschreibung privat €/h</label><input id="depP" value=".20" type="number" step=".01"></div>
+<div><label>Verschleiß privat €/h</label><input id="wearP" value=".05" type="number" step=".01"></div>
+<div><label>Druckarbeit privat €/h</label><input id="laborP" value="3.50" type="number" step=".1"></div>
+<div><label>Handarbeit privat €/h</label><input id="handP" value="25" type="number" step=".5"></div>
+<div><label>Abschreibung gew. €/h</label><input id="depB" value=".30" type="number" step=".01"></div>
+<div><label>Verschleiß gew. €/h</label><input id="wearB" value=".12" type="number" step=".01"></div>
+<div><label>Druckarbeit gew. €/h</label><input id="laborB" value="15" type="number" step=".1"></div>
+<div><label>Handarbeit gew. €/h</label><input id="handB" value="30" type="number" step=".5"></div>
+<div><label>Setup je Platte (min.)</label><input id="setup" value="15" type="number"></div>
+<div><label>Betriebskosten gew. (%)</label><input id="overhead" value="8" type="number"></div>
+</div>
+<p class="muted">Privat: 10 % der Druckzeit + Setup je Druckplatte. Gewerblich: 15 min Grundsetup + 10 min je Druckplatte.</p>
+</details>
+
+<div class="card muted">Hinweis: Die Werte sind kalkulatorische Startwerte. Bei gekauften STL-Dateien immer die Lizenz für Verkäufe prüfen.</div>
+</div>
+<script>
+const $=id=>document.getElementById(id), n=id=>Math.max(0,parseFloat($(id).value)||0);
+const euro=x=>new Intl.NumberFormat('de-DE',{style:'currency',currency:'EUR'}).format(x);
+let mode='stranger';
+document.querySelectorAll('#modes button').forEach(b=>b.onclick=()=>{mode=b.dataset.v;document.querySelectorAll('#modes button').forEach(x=>x.classList.remove('active'));b.classList.add('active');calc()});
+function calc(){
+ const business=mode==='business',h=n('hours'),p=n('plates');
+ const fil=n('grams')*n('fp'), power=h*n('watts')/1000*n('powerprice');
+ const dep=h*(business?n('depB'):n('depP')),wear=h*(business?n('wearB'):n('wearP'));
+ const work=business?(p?0.25:0)+p*10/60:h*.10+p*n('setup')/60;
+ const labor=work*(business?n('laborB'):n('laborP'));
+ const handRate=business?n('handB'):n('handP');
+ const design=n('design')*handRate,finish=n('finish')*handRate,file=n('file'),extra=n('extra');
+ const direct=fil+power+dep+wear+labor+design+finish+file+extra;
+ const overhead=business?direct*n('overhead')/100:0,self=direct+overhead;
+ const m={friend:-20,colleague:10,stranger:35,business:35}[mode],price=self*(1+m/100);
+ $('price').textContent=euro(price);$('self').textContent=euro(self);$('markup').textContent=(m>=0?'+':'')+m+' %';
+}
+document.querySelectorAll('input').forEach(x=>x.addEventListener('input',calc));
+$('reset').onclick=()=>location.reload();calc();
+</script>
+</body></html>
