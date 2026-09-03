@@ -139,6 +139,176 @@ input[type="number"],input[type="text"],input[type="time"],select{
   .container,.app,.wrap,main{margin:0 9px}
 }
 </style>
+
+<style id="v15-ui">
+/* VERSION 15 – App-like iPhone 16 Pro layout. Calculation/JS untouched. */
+:root{
+  --v15-blue:#19a8ff;
+  --v15-orange:#ff8a25;
+  --v15-green:#32d583;
+  --v15-purple:#a970ff;
+}
+body{
+  background:
+    radial-gradient(700px 300px at 50% -80px,rgba(25,168,255,.13),transparent 65%),
+    var(--bg) !important;
+}
+.app{
+  max-width:560px !important;
+  padding-left:14px !important;
+  padding-right:14px !important;
+}
+header{
+  padding:18px 2px 14px !important;
+  align-items:flex-start !important;
+}
+h1{
+  font-size:32px !important;
+  line-height:1.02 !important;
+  letter-spacing:-1.3px !important;
+}
+.sub{font-size:13px !important;margin-top:5px}
+.theme,.reset{
+  width:44px;height:44px;padding:0 !important;
+  display:grid;place-items:center;
+  border-radius:14px !important;
+}
+.card{
+  border-radius:20px !important;
+  padding:16px !important;
+  margin-bottom:11px !important;
+  box-shadow:0 7px 22px rgba(0,0,0,.10) !important;
+}
+.sectiontitle{
+  font-size:19px !important;
+  margin-bottom:12px !important;
+}
+.muted{font-size:13px !important}
+
+/* Customer selector */
+.mode{
+  padding:4px !important;
+  gap:4px !important;
+  border-radius:15px !important;
+}
+.mode button{
+  min-height:46px !important;
+  padding:7px 3px !important;
+  font-size:12px !important;
+  border-radius:11px !important;
+}
+.mode button.active{
+  transform:none !important;
+}
+
+/* Inputs */
+.grid{gap:10px !important}
+label{
+  font-size:12px !important;
+  margin-bottom:5px !important;
+}
+input{
+  height:48px !important;
+  min-height:48px !important;
+  border-radius:13px !important;
+  font-size:16px !important;
+}
+
+/* Druckzeit */
+.timebox{gap:9px !important}
+
+/* Multi color */
+.multi-head{
+  margin:12px 0 !important;
+  padding:11px 12px !important;
+  min-height:52px !important;
+  border-radius:15px !important;
+}
+.multi-title{font-size:15px !important}
+.multi-title span{font-size:12px !important}
+.switch{width:54px !important;height:32px !important}
+.switch i{width:24px !important;height:24px !important;top:4px !important;left:4px !important}
+.switch.on i{left:26px !important}
+
+.material-total{
+  margin-top:10px !important;
+  padding:11px 13px !important;
+  border-radius:13px !important;
+}
+.material-total strong{font-size:17px !important}
+.hint{margin-top:9px !important;padding:10px 11px !important}
+
+/* Filament rows: readable on a phone */
+.filaments-head{display:none !important}
+.filament-row{
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr) 42px !important;
+  grid-template-areas:
+    "g kg del"
+    "note note del" !important;
+  gap:7px !important;
+  padding:9px !important;
+  border-radius:15px !important;
+}
+.filament-row > div:nth-child(1){grid-area:g}
+.filament-row > div:nth-child(2){grid-area:kg}
+.filament-row > .fn{grid-area:note}
+.filament-row > .delete{grid-area:del;align-self:center}
+.filament-row input{height:44px !important;min-height:44px !important;font-size:15px !important}
+.add-filament{
+  height:46px !important;
+  border-radius:13px !important;
+}
+
+/* Handarbeit */
+.result{
+  border-radius:20px !important;
+  padding:18px !important;
+  margin-bottom:11px !important;
+  background:
+    linear-gradient(145deg,rgba(25,168,255,.13),rgba(14,21,32,.98) 55%) !important;
+  border-color:rgba(25,168,255,.28) !important;
+}
+.result .label{
+  font-size:12px !important;
+  text-transform:uppercase;
+  letter-spacing:.7px;
+}
+.price{
+  font-size:43px !important;
+  line-height:1 !important;
+  margin-top:7px !important;
+  letter-spacing:-1.8px !important;
+}
+.resultrow{
+  padding-top:11px !important;
+  margin-top:11px !important;
+  font-size:14px !important;
+}
+
+/* Cost breakdown */
+.breakdown>div{
+  padding:8px 0 !important;
+  font-size:13px !important;
+}
+.breakdown .total{padding-top:10px !important}
+.breakdown .total strong{font-size:14px !important}
+
+/* Keep the settings area compact */
+details.card{padding:15px !important}
+details summary{font-size:16px !important}
+
+/* iPhone 16 Pro / narrow phones */
+@media (max-width:430px){
+  .app{width:auto !important;margin:0 auto !important}
+  .full{grid-column:1/-1 !important}
+}
+@media (max-width:360px){
+  .app{padding-left:10px !important;padding-right:10px !important}
+  .card{padding:13px !important}
+  .mode button{font-size:10.5px !important}
+  .price{font-size:39px !important}
+}
+</style>
 </head>
 <body>
 <div class="app">
