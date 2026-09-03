@@ -309,6 +309,74 @@ details summary{font-size:16px !important}
   .price{font-size:39px !important}
 }
 </style>
+<style id="v16-finish">
+:root{--v16-blue:#19a8ff;--v16-blue-soft:rgba(25,168,255,.14)}
+body{background:radial-gradient(620px 260px at 50% -60px,rgba(25,168,255,.12),transparent 68%),var(--bg)!important}
+.card{border-color:rgba(54,76,105,.72)!important}
+.multi-head{min-height:48px!important;padding:9px 12px!important;margin:11px 0!important}
+.multi-head .switch{width:50px!important;height:29px!important}
+.multi-head .switch i{width:21px!important;height:21px!important;top:4px!important;left:4px!important}
+.multi-head .switch.on i{left:25px!important}
+.material-total{background:linear-gradient(100deg,rgba(25,168,255,.08),rgba(25,168,255,.15))!important;border-color:rgba(25,168,255,.42)!important}
+.material-total strong,.result strong{font-variant-numeric:tabular-nums}
+.filament-row .delete{opacity:.72!important;font-size:18px!important}.filament-row .delete:active{opacity:1!important}
+.result{padding:17px!important}.result .label{letter-spacing:1px!important}.price{font-size:39px!important;letter-spacing:-1.5px!important;font-variant-numeric:tabular-nums}
+.resultrow{display:flex!important;justify-content:space-between!important;align-items:center!important;gap:14px!important}
+.breakdown .total{margin-top:5px!important;padding-top:13px!important;border-top:1px solid rgba(100,120,145,.38)!important}
+.breakdown .total strong{font-size:15px!important}
+.breakdown .sale,.breakdown .selling,.breakdown .verkaufspreis{margin-top:4px!important;padding-top:11px!important}
+.breakdown .sale strong,.breakdown .selling strong,.breakdown .verkaufspreis strong{font-size:16px!important}
+.hint{border-radius:15px!important;font-size:13px!important;line-height:1.45!important}
+@media(max-width:430px){.price{font-size:38px!important}.result .label{font-size:11px!important}}
+</style>
+<style id="v17-price-controls">
+.price-control{
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  gap:5px;
+  font-weight:700;
+  color:var(--text,#f3f6fb);
+}
+.price-control input{
+  width:76px !important;
+  height:40px !important;
+  min-height:40px !important;
+  text-align:right;
+  padding:7px 9px !important;
+  font-weight:700;
+  border-radius:11px !important;
+}
+.resultrow select{
+  max-width:175px;
+  height:40px;
+  min-height:40px;
+  border-radius:11px;
+  padding:0 9px;
+  font-size:13px;
+}
+.standard-actions{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+  margin-top:14px;
+}
+.standard-actions button{
+  min-height:44px;
+  border:1px solid rgba(54,76,105,.85);
+  border-radius:12px;
+  background:rgba(255,255,255,.035);
+  color:inherit;
+  padding:8px 10px;
+  font-size:13px;
+}
+.standard-actions button:active{transform:scale(.98)}
+@media(max-width:430px){
+  .price-control input{width:72px !important}
+  .resultrow select{max-width:155px;font-size:12px}
+  .standard-actions{grid-template-columns:1fr}
+}
+</style>
 </head>
 <body>
 <div class="app">
@@ -346,7 +414,25 @@ details summary{font-size:16px !important}
 <div><label>Nachbearbeitung (Std.)</label><input id="finish" type="number" value="0" min="0" step="0.1" inputmode="decimal"></div>
 </div></div>
 
-<div class="result"><div class="label">Empfohlener Verkaufspreis</div><div class="price" id="price">0,00 €</div><div class="resultrow"><span>Selbstkosten</span><strong id="self">0,00 €</strong></div><div class="resultrow"><span>Aufschlag / Rabatt</span><strong id="markup">+35 %</strong></div></div>
+<div class="result">
+  <div class="label">Empfohlener Verkaufspreis</div>
+  <div class="price" id="price">0,00 €</div>
+  <div class="resultrow"><span>Selbstkosten</span><strong id="self">0,00 €</strong></div>
+  <div class="resultrow">
+    <span>Aufschlag / Rabatt</span>
+    <div class="price-control"><input id="markupInput" type="number" value="35" step="1" inputmode="decimal" aria-label="Aufschlag oder Rabatt in Prozent"> <span>%</span></div>
+  </div>
+  <div class="resultrow">
+    <span>Verkaufspreis runden</span>
+    <select id="rounding" aria-label="Verkaufspreis runden">
+      <option value="0">Keine Rundung</option>
+      <option value="0.1">auf 0,10 €</option>
+      <option value="0.5">auf 0,50 €</option>
+      <option value="1">auf 1,00 €</option>
+      <option value="5">auf 5,00 €</option>
+    </select>
+  </div>
+</div>
 
 
 <div class="card" id="breakdownCard">
@@ -381,7 +467,12 @@ details summary{font-size:16px !important}
 <div><label>Handarbeit gew. €/h</label><input id="handB" value="30" type="number" step=".5"></div>
 <div><label>Setup je Platte (min.)</label><input id="setup" value="15" type="number"></div>
 <div><label>Betriebskosten gew. (%)</label><input id="overhead" value="8" type="number"></div>
-</div><p class="muted">Privat: 10 % der Druckzeit + Setup je Druckplatte. Gewerblich: 15 min Grundsetup + 10 min je Druckplatte.</p></details>
+</div>
+<div class="standard-actions">
+  <button type="button" id="saveDefaults">💾 Standardwerte speichern</button>
+  <button type="button" id="loadDefaults">↥ Gespeicherte Standards laden</button>
+</div>
+<p class="muted">Privat: 10 % der Druckzeit + Setup je Druckplatte. Gewerblich: 15 min Grundsetup + 10 min je Druckplatte.</p></details>
 <div class="card muted">💡 <strong>Darkmodus:</strong> Mit ☾/☀️ oben kannst du zwischen Hell und Dunkel wechseln. Die Einstellung wird auf deinem iPhone gespeichert.</div><div class="card muted">Hinweis: Die Werte sind kalkulatorische Startwerte. Bei gekauften STL-Dateien immer die Lizenz für Verkäufe prüfen.</div>
 </div>
 <script>
@@ -403,7 +494,7 @@ function renderFilaments(){
   if(!rows.length) rows=defaultRows;
   if(!multi) rows.splice(1);
   area.innerHTML='<div class="filaments-head"><span>Filamentmenge</span><span>Preis pro kg</span><span>Farbe / Art des Filaments</span><span></span></div>';
-  rows.forEach((r,i)=>{
+  rows.forEach((r)=>{
     const row=document.createElement('div');row.className='filament-row';
     row.innerHTML=`<div><input class="fg" type="number" min="0" step="1" inputmode="decimal" value="${r.g}"></div>
       <div><input class="fkg" type="number" min="0" step="0.01" inputmode="decimal" value="${r.kg}"></div>
@@ -434,7 +525,9 @@ renderFilaments();
 document.querySelectorAll('#modes button').forEach(b=>b.onclick=()=>{
   mode=b.dataset.v;
   document.querySelectorAll('#modes button').forEach(x=>x.classList.remove('active'));
-  b.classList.add('active');calc();
+  b.classList.add('active');
+  if($('markupInput')) $('markupInput').value={friend:-20,colleague:10,stranger:35,business:35}[mode];
+  calc();
 });
 
 function materialCost(){
@@ -446,21 +539,6 @@ function materialCost(){
   return total;
 }
 
-function updateBreakdown(){
-  const business=mode==='business', h=n('hours')+n('minutes')/60, p=Math.floor(n('plates'));
-  const material=materialCost(), power=h*n('watts')/1000*n('powerprice');
-  const dep=h*(business?n('depB'):n('depP')), wear=h*(business?n('wearB'):n('wearP'));
-  const work=business?(p?0.25:0)+p*10/60:h*.10+p*n('setup')/60;
-  const labor=work*(business?n('laborB'):n('laborP')), handRate=business?n('handB'):n('handP');
-  const design=n('design')*handRate, finish=n('finish')*handRate, file=n('file'), extra=n('extra');
-  const direct=material+power+dep+wear+labor+design+finish+file+extra;
-  const overhead=business?direct*n('overhead')/100:0, self=direct+overhead;
-  const m={friend:-20,colleague:10,stranger:35,business:35}[mode], sale=self*(1+m/100);
-  const vals={bMaterial:material,bPower:power,bDep:dep,bWear:wear,bPrinter:labor,bBuild:design,bPost:finish,bLicense:file,bOther:extra,bOverhead:overhead,bSelf:self,bMarkup:sale-self,bSale:sale};
-  Object.entries(vals).forEach(([id,val])=>{const el=$(id);if(el)el.textContent=euro(val)});
-  if($('bOverheadRow'))$('bOverheadRow').style.display=business?'flex':'none';
-}
-
 function calc(){
   const business=mode==='business', h=n('hours')+n('minutes')/60, p=Math.floor(n('plates'));
   const material=materialCost(), power=h*n('watts')/1000*n('powerprice');
@@ -470,11 +548,50 @@ function calc(){
   const design=n('design')*handRate, finish=n('finish')*handRate, file=n('file'), extra=n('extra');
   const direct=material+power+dep+wear+labor+design+finish+file+extra;
   const overhead=business?direct*n('overhead')/100:0, self=direct+overhead;
-  const m={friend:-20,colleague:10,stranger:35,business:35}[mode], price=self*(1+m/100);
-  $('price').textContent=euro(price);$('self').textContent=euro(self);$('markup').textContent=(m>=0?'+':'')+m+' %';
-  $('materialCalc').textContent=euro(material);updateBreakdown();
+
+  let m=parseFloat(String($('markupInput')?.value||'').replace(',','.'));
+  if(!Number.isFinite(m)) m={friend:-20,colleague:10,stranger:35,business:35}[mode];
+  m=Math.max(-100,m);
+  const rawPrice=self*(1+m/100);
+
+  const step=parseFloat($('rounding')?.value||'0')||0;
+  const price=step>0 ? Math.round(rawPrice/step)*step : rawPrice;
+
+  $('price').textContent=euro(price);
+  $('self').textContent=euro(self);
+  $('markup').textContent=(m>=0?'+':'')+m+' %';
+  $('materialCalc').textContent=euro(material);
+  updateBreakdown(self,price,material,power,dep,wear,labor,design,finish,file,extra,overhead);
 }
-document.querySelectorAll('input').forEach(x=>x.addEventListener('input',calc));
+
+function updateBreakdown(self,price,material,power,dep,wear,labor,design,finish,file,extra,overhead){
+  const markupValue=price-self;
+  const vals={bMaterial:material,bPower:power,bDep:dep,bWear:wear,bPrinter:labor,bBuild:design,bPost:finish,bLicense:file,bOther:extra,bOverhead:overhead,bSelf:self,bMarkup:markupValue,bSale:price};
+  Object.entries(vals).forEach(([id,val])=>{const el=$(id);if(el)el.textContent=euro(val)});
+  if($('bOverheadRow'))$('bOverheadRow').style.display=mode==='business'?'flex':'none';
+}
+
+const defaultIds=['powerprice','watts','depP','wearP','laborP','handP','depB','wearB','laborB','handB','setup','overhead'];
+$('saveDefaults').onclick=()=>{
+  const data={};
+  defaultIds.forEach(id=>{if($(id)) data[id]=$(id).value;});
+  data.rounding=$('rounding').value;
+  localStorage.setItem('3dcalc-defaults',JSON.stringify(data));
+  $('saveDefaults').textContent='✓ Standards gespeichert';
+  setTimeout(()=>{$('saveDefaults').textContent='💾 Standardwerte speichern';},1400);
+};
+$('loadDefaults').onclick=()=>{
+  try{
+    const data=JSON.parse(localStorage.getItem('3dcalc-defaults')||'null');
+    if(!data) return;
+    defaultIds.forEach(id=>{if($(id)&&data[id]!==undefined)$(id).value=data[id];});
+    if($('rounding')&&data.rounding!==undefined)$('rounding').value=data.rounding;
+    calc();
+  }catch(e){}
+};
+
+document.querySelectorAll('input,select').forEach(x=>x.addEventListener('input',calc));
+document.querySelectorAll('select').forEach(x=>x.addEventListener('change',calc));
 $('reset').onclick=()=>location.reload();
 calc();
 </script></body></html>

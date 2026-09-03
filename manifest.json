@@ -1,11 +1,10 @@
 {
-  "name": "3D Druck Kalkulator",
+  "name": "3D Kalkulator",
   "short_name": "3D Kalkulator",
   "start_url": "./",
-  "scope": "./",
   "display": "standalone",
-  "background_color": "#070b12",
-  "theme_color": "#111827",
+  "background_color": "#05070d",
+  "theme_color": "#05070d",
   "icons": [
     {
       "src": "icons/icon-192.png",
