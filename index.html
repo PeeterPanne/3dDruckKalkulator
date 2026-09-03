@@ -58,6 +58,28 @@ details summary{cursor:pointer;font-weight:850;list-style:none}details summary::
 @media(max-width:390px){.app{padding-left:12px;padding-right:12px}.mode{gap:3px}.mode button{font-size:10px}.filaments-head{font-size:10px}}
 </style>
 <link rel="apple-touch-icon" sizes="180x180" href="icons/icon-180.png">
+
+<style>
+html,body{width:100%;min-height:100%;overflow-x:hidden}
+body{-webkit-text-size-adjust:100%;padding-bottom:env(safe-area-inset-bottom)}
+.app{width:100%;max-width:100%;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left));padding-right:max(16px,env(safe-area-inset-right))}
+input,button{font:inherit}
+button{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+@media (max-width:430px){
+  .app{padding-left:14px;padding-right:14px}
+  header{padding-top:18px}
+  h1{font-size:30px}
+  .sub{font-size:14px}
+  .card{border-radius:20px;padding:16px}
+  .sectiontitle{font-size:20px}
+  .mode button{font-size:11px;padding:11px 2px}
+  .price{font-size:44px}
+  .filaments-head,.filament-row{grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(0,1.35fr) 32px}
+  .filaments-head{font-size:10px}
+  .filament-row input{height:44px;font-size:14px;padding:0 9px}
+  .delete{width:32px}
+}
+</style>
 </head>
 <body>
 <div class="app">
