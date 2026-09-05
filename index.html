@@ -496,7 +496,27 @@ body{background:radial-gradient(620px 260px at 50% -60px,rgba(25,168,255,.12),tr
     <button class="switch" id="multiToggle" type="button" aria-label="Multi-Color ein/aus"><i></i></button>
   </div>
 
-  <div id="filamentArea"></div>
+  <div id="filamentArea">
+  <div class="filament-intro">🧵 <strong>So trägst du es ein:</strong> Gramm = tatsächlicher Verbrauch · €/kg = Preis deiner Filamentrolle · Farbe/Art = z. B. Schwarz PLA</div>
+  <div class="filament-row">
+    <div class="filament-field" style="grid-area:g">
+      <label>Menge (g)</label>
+      <input class="fg" type="number" min="0" step="1" inputmode="decimal" value="163" placeholder="z. B. 163">
+      <div class="field-help">Verbrauchte Gramm</div>
+    </div>
+    <div class="filament-field" style="grid-area:kg">
+      <label>Preis €/kg</label>
+      <input class="fkg" type="number" min="0" step="0.01" inputmode="decimal" value="17.30" placeholder="z. B. 17,30">
+      <div class="field-help">Preis der 1-kg-Rolle</div>
+    </div>
+    <div class="filament-field note-field">
+      <label>Farbe / Art</label>
+      <input class="fn note-input" type="text" value="PLA" placeholder="z. B. Schwarz PLA">
+      <div class="field-help">z. B. Schwarz PLA</div>
+    </div>
+    <button class="delete" type="button" aria-label="Filament löschen">🗑️</button>
+  </div>
+</div>
   <div class="material-total"><span>Materialkosten</span><strong id="materialCalc">2,82 €</strong></div>
   <div class="hint">💡 Trage je Filament die Menge in Gramm und den Rollenpreis in €/kg ein. Bei Multi-Color kannst du für jede Farbe/Filamentart eine eigene Zeile anlegen.</div>
 </div>
@@ -504,6 +524,25 @@ body{background:radial-gradient(620px 260px at 50% -60px,rgba(25,168,255,.12),tr
 <div><label>Konstruktion (Std.)</label><input id="design" type="number" value="0" min="0" step="0.1" inputmode="decimal"></div>
 <div><label>Nachbearbeitung (Std.)</label><input id="finish" type="number" value="0" min="0" step="0.1" inputmode="decimal"></div>
 </div></div>
+
+<div class="card" id="breakdownCard">
+  <div class="sectiontitle">⚙️ Kostenaufstellung</div>
+  <div class="breakdown">
+    <div><span>Material</span><strong id="bMaterial">0,00 €</strong></div>
+    <div><span>Strom</span><strong id="bPower">0,00 €</strong></div>
+    <div><span>Drucker-Abschreibung</span><strong id="bDep">0,00 €</strong></div>
+    <div><span>Verschleiß</span><strong id="bWear">0,00 €</strong></div>
+    <div><span>Druckerarbeit / Setup</span><strong id="bPrinter">0,00 €</strong></div>
+    <div><span>Konstruktion</span><strong id="bBuild">0,00 €</strong></div>
+    <div><span>Nachbearbeitung</span><strong id="bPost">0,00 €</strong></div>
+    <div><span>Modelldatei / Lizenz</span><strong id="bLicense">0,00 €</strong></div>
+    <div><span>Sonstige Kosten</span><strong id="bOther">0,00 €</strong></div>
+    <div id="bOverheadRow"><span>Betriebskosten</span><strong id="bOverhead">0,00 €</strong></div>
+    <div class="total"><span>Selbstkosten</span><strong id="bSelf">0,00 €</strong></div>
+    <div class="total"><span>Aufschlag / Rabatt</span><strong id="bMarkup">0,00 €</strong></div>
+    <div class="total"><span>Verkaufspreis</span><strong id="bSale">0,00 €</strong></div>
+  </div>
+</div>
 
 <div class="result">
   <div class="label">Empfohlener Verkaufspreis</div>
@@ -526,24 +565,7 @@ body{background:radial-gradient(620px 260px at 50% -60px,rgba(25,168,255,.12),tr
 </div>
 
 
-<div class="card" id="breakdownCard">
-  <div class="sectiontitle">⚙️ Kostenaufstellung</div>
-  <div class="breakdown">
-    <div><span>Material</span><strong id="bMaterial">0,00 €</strong></div>
-    <div><span>Strom</span><strong id="bPower">0,00 €</strong></div>
-    <div><span>Drucker-Abschreibung</span><strong id="bDep">0,00 €</strong></div>
-    <div><span>Verschleiß</span><strong id="bWear">0,00 €</strong></div>
-    <div><span>Druckerarbeit / Setup</span><strong id="bPrinter">0,00 €</strong></div>
-    <div><span>Konstruktion</span><strong id="bBuild">0,00 €</strong></div>
-    <div><span>Nachbearbeitung</span><strong id="bPost">0,00 €</strong></div>
-    <div><span>Modelldatei / Lizenz</span><strong id="bLicense">0,00 €</strong></div>
-    <div><span>Sonstige Kosten</span><strong id="bOther">0,00 €</strong></div>
-    <div id="bOverheadRow"><span>Betriebskosten</span><strong id="bOverhead">0,00 €</strong></div>
-    <div class="total"><span>Selbstkosten</span><strong id="bSelf">0,00 €</strong></div>
-    <div class="total"><span>Aufschlag / Rabatt</span><strong id="bMarkup">0,00 €</strong></div>
-    <div class="total"><span>Verkaufspreis</span><strong id="bSale">0,00 €</strong></div>
-  </div>
-</div>
+
 
 <details class="card"><summary>⚙️ Kalkulationswerte</summary><div class="grid" style="margin-top:16px">
 <div><label>Strom €/kWh</label><input id="powerprice" value="0.35" type="number" step=".01"></div>
