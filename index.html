@@ -31,7 +31,7 @@ input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(21,144,255,.14)}
 .mode{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;background:var(--soft);padding:5px;border-radius:16px}
 .mode button{border:1px solid transparent;background:transparent;border-radius:12px;padding:12px 4px;font-weight:800;color:var(--muted);font-size:13px}
 .mode button.active{background:var(--card);color:var(--text);box-shadow:0 3px 12px rgba(0,0,0,.18);border-color:var(--line)}
-.mode button[data-v="friend"].active{color:var(--green)}.mode button[data-v="colleague"].active{color:var(--blue)}
+.mode button[data-v="friend"].active{color:var(--green)}.mode button[data-v="acquaintance"].active{color:var(--blue)}
 .mode button[data-v="stranger"].active{color:var(--orange)}.mode button[data-v="business"].active{color:var(--purple)}
 .timebox{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .theme,.reset{border:1px solid var(--line);background:var(--soft);border-radius:13px;padding:10px 12px;font-weight:800;color:var(--text)}
@@ -528,7 +528,7 @@ body{background:radial-gradient(620px 260px at 50% -60px,rgba(25,168,255,.12),tr
 <div id="calculatorView">
 
 <div class="card"><div class="sectiontitle">Für wen wird gedruckt?</div><div class="mode" id="modes">
-<button data-v="friend">Freund</button><button data-v="colleague">Kollege</button><button data-v="stranger" class="active">Fremder</button><button data-v="business">Gewerblich</button>
+<button data-v="friend">Freund</button><button data-v="acquaintance">Bekannter</button><button data-v="stranger" class="active">Fremder</button><button data-v="business">Gewerblich</button>
 </div></div>
 
 <div class="card">
@@ -681,7 +681,7 @@ body{background:radial-gradient(620px 260px at 50% -60px,rgba(25,168,255,.12),tr
 
   function init(){
     const $ = id => document.getElementById(id);
-    const modeMarkup = {friend:-20, colleague:10, stranger:35, business:35};
+    const modeMarkup = {friend:-20, acquaintance:10, stranger:35, business:35};
     const defaultRows = [{g:163, kg:17.30, note:'PLA'}];
     let mode = 'stranger';
     let multi = false;
