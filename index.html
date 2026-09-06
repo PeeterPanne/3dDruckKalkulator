@@ -503,6 +503,20 @@ body{background:radial-gradient(620px 260px at 50% -60px,rgba(25,168,255,.12),tr
 }
 </style>
 
+<style id="orders-v4">
+.orders-dashboard{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:14px}
+.orders-stat{padding:15px;border:1px solid var(--line);border-radius:16px;background:var(--soft)}
+.orders-stat .stat-label{font-size:12px;color:var(--muted);margin-bottom:5px}.orders-stat .stat-value{font-size:23px;font-weight:900}
+.order-filters{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:14px}.order-filter{min-height:40px;border:1px solid var(--line);border-radius:11px;background:var(--soft);color:var(--text);padding:0 12px;font-weight:800;cursor:pointer}.order-filter.active{background:var(--blue);border-color:var(--blue);color:#fff}
+.order-status{display:inline-flex;min-height:28px;padding:3px 9px;border-radius:999px;font-size:11px;font-weight:900;background:var(--soft);border:1px solid var(--line)}
+.order-status.offen{color:var(--orange)}.order-status.in-arbeit{color:var(--blue)}.order-status.erledigt{color:var(--green)}.order-status.bezahlt{color:var(--purple)}
+.order-detail{display:none;grid-column:1/-1;margin-top:10px;padding:15px;border:1px solid var(--line);border-radius:15px;background:var(--card)}.order-detail.open{display:block}
+.order-detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px 20px}.order-detail-grid>div{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--line)}.order-detail-grid span{color:var(--muted)}
+.cost-detail{margin-top:13px;padding-top:10px;border-top:1px solid var(--line)}.cost-detail-title{font-weight:850;margin-bottom:6px}.cost-line{display:flex;justify-content:space-between;padding:5px 0;font-size:13px}.cost-line span{color:var(--muted)}
+.order-status-buttons{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}.order-status-buttons button{min-height:36px;border:1px solid var(--line);border-radius:10px;background:var(--soft);color:var(--text);font-weight:750;padding:0 10px;cursor:pointer}
+.profit-positive{color:var(--green)}.profit-negative{color:var(--orange)}
+@media(max-width:700px){.orders-dashboard{grid-template-columns:1fr}.order-detail-grid{grid-template-columns:1fr}}
+</style>
 </head>
 <body>
 <div class="app">
@@ -642,11 +656,23 @@ body{background:radial-gradient(620px 260px at 50% -60px,rgba(25,168,255,.12),tr
 </div>
 
 <div id="ordersView" style="display:none">
-  <div class="card">
-    <div class="sectiontitle">📋 Aufträge</div>
-    <div class="muted" style="margin-top:-7px;margin-bottom:14px">Gespeicherte Kalkulationen werden direkt auf diesem Gerät gespeichert.</div>
-    <div class="order-list" id="orderList"></div>
-  </div>
+<div class="orders-dashboard">
+<div class="orders-stat"><div class="stat-label">Aufträge</div><div class="stat-value" id="statOrders">0</div></div>
+<div class="orders-stat"><div class="stat-label">Umsatz (Erledigt + Bezahlt)</div><div class="stat-value" id="statRevenue">0,00 €</div></div>
+<div class="orders-stat"><div class="stat-label">Gewinn (Erledigt + Bezahlt)</div><div class="stat-value" id="statProfit">0,00 €</div></div>
+</div>
+<div class="card">
+<div class="sectiontitle">📋 Aufträge</div>
+<div class="order-filters" id="orderFilters">
+<button type="button" class="order-filter active" data-filter="all">Alle</button>
+<button type="button" class="order-filter" data-filter="Offen">Offen</button>
+<button type="button" class="order-filter" data-filter="In Arbeit">In Arbeit</button>
+<button type="button" class="order-filter" data-filter="Erledigt">Erledigt</button>
+<button type="button" class="order-filter" data-filter="Bezahlt">Bezahlt</button>
+</div>
+<div class="muted" style="margin-bottom:12px">Details zeigt die komplette Kostenaufstellung des gespeicherten Auftrags.</div>
+<div class="order-list" id="orderList"></div>
+</div>
 </div>
 
 <script>
@@ -866,110 +892,47 @@ body{background:radial-gradient(620px 260px at 50% -60px,rgba(25,168,255,.12),tr
 </script>
 <script id="orders-clean-js">
 (function(){
-  'use strict';
-  const KEY='3dcalc-orders-final';
-  const $=id=>document.getElementById(id);
-
-  function get(){
-    try{
-      const x=JSON.parse(localStorage.getItem(KEY)||'[]');
-      return Array.isArray(x)?x:[];
-    }catch(e){return []}
-  }
-  function put(x){localStorage.setItem(KEY,JSON.stringify(x))}
-  function esc(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]))}
-  function euro(v){return new Intl.NumberFormat('de-DE',{style:'currency',currency:'EUR'}).format(Number(v)||0)}
-  function moneyText(id){
-    const s=$(id)?.textContent||'0';
-    return parseFloat(s.replace(/[^\d,.-]/g,'').replace(/\./g,'').replace(',','.'))||0;
-  }
-
-  function snapshot(){
-    return {
-      id:Date.now().toString(36)+'-'+Math.random().toString(36).slice(2),
-      date:new Date().toLocaleDateString('de-DE'),
-      customer:$('orderCustomer')?.value.trim()||'Ohne Kundenname',
-      article:$('orderArticle')?.value.trim()||'Ohne Artikelname',
-      qty:Math.max(1,parseInt($('orderQty')?.value||'1',10)),
-      note:$('orderNote')?.value.trim()||'',
-      self:moneyText('self'),
-      price:moneyText('price'),
-      filaments:Array.from(document.querySelectorAll('.filament-row')).map(r=>({
-        g:r.querySelector('.fg')?.value||'',
-        kg:r.querySelector('.fkg')?.value||'',
-        note:r.querySelector('.fn')?.value||''
-      }))
-    };
-  }
-
-  function render(){
-    const list=$('orderList');
-    if(!list)return;
-    const data=get();
-    list.innerHTML=data.length?data.slice().reverse().map(o=>`
-      <div class="order-item">
-        <div><strong>${esc(o.customer)}</strong><div class="meta">${esc(o.date)}</div></div>
-        <div><strong>${esc(o.article)}</strong><div class="meta">${o.qty} Stück</div></div>
-        <div><strong>${euro(o.self)}</strong><div class="meta">Selbstkosten</div></div>
-        <div><strong>${euro(o.price)}</strong><div class="meta">Verkaufspreis</div></div>
-        <div class="order-actions">
-          <button type="button" data-action="detail" data-id="${esc(o.id)}">Details</button>
-          <button type="button" data-action="edit" data-id="${esc(o.id)}">Bearbeiten</button>
-          <button type="button" data-action="delete" data-id="${esc(o.id)}">🗑️</button>
-        </div>
-      </div>`).join(''):'<div class="order-empty">Noch keine Aufträge gespeichert.</div>';
-  }
-
-  function view(name){
-    const calc=$('calculatorView'), orders=$('ordersView');
-    if(calc)calc.style.display=name==='calc'?'block':'none';
-    if(orders)orders.style.display=name==='orders'?'block':'none';
-    $('showCalculator')?.classList.toggle('active',name==='calc');
-    $('showOrders')?.classList.toggle('active',name==='orders');
-    if(name==='orders')render();
-  }
-
-  function init(){
-    $('showCalculator')?.addEventListener('click',()=>view('calc'));
-    $('showOrders')?.addEventListener('click',()=>view('orders'));
-
-    $('saveOrder')?.addEventListener('click',function(){
-      const data=get();
-      data.push(snapshot());
-      put(data);
-      render();
-      this.textContent='✓ Auftrag gespeichert';
-      setTimeout(()=>this.textContent='💾 Auftrag speichern',1400);
-    });
-
-    $('orderList')?.addEventListener('click',function(e){
-      const b=e.target.closest('button');
-      if(!b)return;
-      const id=b.dataset.id;
-      const data=get();
-      const o=data.find(x=>x.id===id);
-      if(!o)return;
-
-      if(b.dataset.action==='delete'){
-        put(data.filter(x=>x.id!==id));
-        render();
-      }else if(b.dataset.action==='edit'){
-        if($('orderCustomer'))$('orderCustomer').value=o.customer||'';
-        if($('orderArticle'))$('orderArticle').value=o.article||'';
-        if($('orderQty'))$('orderQty').value=o.qty||1;
-        if($('orderNote'))$('orderNote').value=o.note||'';
-        view('calc');
-        window.scrollTo({top:0,behavior:'smooth'});
-      }else{
-        alert('Auftrag: '+o.article+'\nKunde: '+o.customer+'\nDatum: '+o.date+'\nAnzahl: '+o.qty+'\nSelbstkosten: '+euro(o.self)+'\nVerkaufspreis: '+euro(o.price)+(o.note?'\nNotiz: '+o.note:''));
-      }
-    });
-
-    render();
-  }
-
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});
-  else init();
+const KEY='3dcalc-orders-final'; let filter='all'; const $=id=>document.getElementById(id);
+const get=()=>{try{let x=JSON.parse(localStorage.getItem(KEY)||'[]');return Array.isArray(x)?x:[]}catch(e){return[]}};
+const put=x=>localStorage.setItem(KEY,JSON.stringify(x));
+const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
+const euro=v=>new Intl.NumberFormat('de-DE',{style:'currency',currency:'EUR'}).format(Number(v)||0);
+function money(id){let s=$(id)?.textContent||'0';return parseFloat(s.replace(/[^\d,.-]/g,'').replace(/\./g,'').replace(',','.'))||0}
+function snap(){return {id:Date.now()+'-'+Math.random(),date:new Date().toLocaleDateString('de-DE'),customer:$('orderCustomer')?.value.trim()||'Ohne Kundenname',article:$('orderArticle')?.value.trim()||'Ohne Artikelname',qty:Math.max(1,parseInt($('orderQty')?.value||1)),note:$('orderNote')?.value.trim()||'',self:money('self'),price:money('price'),status:'Offen',costs:{material:money('bMaterial'),power:money('bPower'),dep:money('bDep'),wear:money('bWear'),printer:money('bPrinter'),build:money('bBuild'),post:money('bPost'),license:money('bLicense'),other:money('bOther'),overhead:money('bOverhead'),self:money('bSelf'),markup:money('bMarkup'),sale:money('bSale')},filaments:Array.from(document.querySelectorAll('.filament-row')).map(r=>({g:r.querySelector('.fg')?.value||'',kg:r.querySelector('.fkg')?.value||'',note:r.querySelector('.fn')?.value||''}))}}
+function render(){
+const list=$('orderList');if(!list)return;const all=get(),data=filter==='all'?all:all.filter(o=>(o.status||'Offen')===filter);
+let revenue=0,profit=0;all.forEach(o=>{const status=o.status||'Offen';if(status==='Erledigt'||status==='Bezahlt'){revenue+=+o.price||0;profit+=(+o.price||0)-(+o.self||0)}});
+$('statOrders').textContent=all.length;$('statRevenue').textContent=euro(revenue);$('statProfit').textContent=euro(profit);
+if(!data.length){list.innerHTML='<div class="order-empty">'+(all.length?'Keine Aufträge in diesem Filter.':'Noch keine Aufträge gespeichert.')+'</div>';return}
+list.innerHTML=data.slice().reverse().map(o=>{const c=o.costs||{},status=o.status||'Offen',cls=status.toLowerCase().replace(' ','-'),gain=(+o.price||0)-(+o.self||0);
+return `<div class="order-item">
+<div><strong>${esc(o.customer)}</strong><div class="meta">${esc(o.date)}</div></div>
+<div><strong>${esc(o.article)}</strong><div class="meta">${o.qty} Stück</div></div>
+<div><strong>${euro(o.self)}</strong><div class="meta">Selbstkosten</div></div>
+<div><strong>${euro(o.price)}</strong><div class="meta">Verkaufspreis</div></div>
+<div><span class="order-status ${cls}">${esc(status)}</span></div>
+<div class="order-actions"><button type="button" data-a="detail" data-id="${esc(o.id)}">Details</button><button type="button" data-a="edit" data-id="${esc(o.id)}">Bearbeiten</button><button type="button" data-a="delete" data-id="${esc(o.id)}">🗑️</button></div>
+<div class="order-detail" id="detail-${esc(o.id)}">
+<div class="order-detail-grid"><div><span>Kunde</span><strong>${esc(o.customer)}</strong></div><div><span>Artikel</span><strong>${esc(o.article)}</strong></div><div><span>Anzahl</span><strong>${o.qty}</strong></div><div><span>Gewinn</span><strong class="${gain>=0?'profit-positive':'profit-negative'}">${euro(gain)}</strong></div></div>
+<div class="cost-detail"><div class="cost-detail-title">⚙️ Kostenaufstellung</div>
+${[['Material','material'],['Strom','power'],['Drucker-Abschreibung','dep'],['Verschleiß','wear'],['Druckerarbeit / Setup','printer'],['Konstruktion','build'],['Nachbearbeitung','post'],['Modelldatei / Lizenz','license'],['Sonstige Kosten','other'],['Betriebskosten','overhead'],['Selbstkosten','self'],['Aufschlag / Rabatt','markup'],['Verkaufspreis','sale']].map(x=>`<div class="cost-line"><span>${x[0]}</span><strong>${euro(c[x[1]])}</strong></div>`).join('')}
+</div>
+${o.note?`<div class="order-note"><strong>Notiz:</strong> ${esc(o.note)}</div>`:''}
+<div class="order-status-buttons">${['Offen','In Arbeit','Erledigt','Bezahlt'].map(x=>`<button type="button" data-a="status" data-status="${x}" data-id="${esc(o.id)}">${x}</button>`).join('')}</div>
+</div></div>`}).join('');
+}
+function view(v){$('calculatorView').style.display=v==='calc'?'block':'none';$('ordersView').style.display=v==='orders'?'block':'none';$('showCalculator')?.classList.toggle('active',v==='calc');$('showOrders')?.classList.toggle('active',v==='orders');if(v==='orders')render()}
+function init(){
+$('showCalculator')?.addEventListener('click',()=>view('calc'));$('showOrders')?.addEventListener('click',()=>view('orders'));
+$('saveOrder')?.addEventListener('click',function(){let d=get();d.push(snap());put(d);render();this.textContent='✓ Auftrag gespeichert';setTimeout(()=>this.textContent='💾 Auftrag speichern',1400)});
+$('orderFilters')?.addEventListener('click',e=>{let b=e.target.closest('button');if(!b)return;filter=b.dataset.filter||'all';document.querySelectorAll('.order-filter').forEach(x=>x.classList.toggle('active',x===b));render()});
+$('orderList')?.addEventListener('click',e=>{let b=e.target.closest('button');if(!b)return;let id=b.dataset.id,d=get(),o=d.find(x=>x.id===id);if(!o)return;
+if(b.dataset.a==='detail')$('detail-'+id)?.classList.toggle('open');
+else if(b.dataset.a==='delete'){put(d.filter(x=>x.id!==id));render()}
+else if(b.dataset.a==='status'){o.status=b.dataset.status;put(d);render()}
+else if(b.dataset.a==='edit'){$('orderCustomer').value=o.customer||'';$('orderArticle').value=o.article||'';$('orderQty').value=o.qty||1;$('orderNote').value=o.note||'';view('calc');window.scrollTo({top:0,behavior:'smooth'})}});
+render()}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
 </script>
 
