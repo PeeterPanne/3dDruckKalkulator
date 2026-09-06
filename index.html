@@ -898,10 +898,13 @@ const put=x=>localStorage.setItem(KEY,JSON.stringify(x));
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
 const euro=v=>new Intl.NumberFormat('de-DE',{style:'currency',currency:'EUR'}).format(Number(v)||0);
 function money(id){let s=$(id)?.textContent||'0';return parseFloat(s.replace(/[^\d,.-]/g,'').replace(/\./g,'').replace(',','.'))||0}
-function snap(){return {id:Date.now()+'-'+Math.random(),date:new Date().toLocaleDateString('de-DE'),customer:$('orderCustomer')?.value.trim()||'Ohne Kundenname',article:$('orderArticle')?.value.trim()||'Ohne Artikelname',qty:Math.max(1,parseInt($('orderQty')?.value||1)),note:$('orderNote')?.value.trim()||'',self:money('self'),price:money('price'),status:'Offen',costs:{material:money('bMaterial'),power:money('bPower'),dep:money('bDep'),wear:money('bWear'),printer:money('bPrinter'),build:money('bBuild'),post:money('bPost'),license:money('bLicense'),other:money('bOther'),overhead:money('bOverhead'),self:money('bSelf'),markup:money('bMarkup'),sale:money('bSale')},filaments:Array.from(document.querySelectorAll('.filament-row')).map(r=>({g:r.querySelector('.fg')?.value||'',kg:r.querySelector('.fkg')?.value||'',note:r.querySelector('.fn')?.value||''}))}}
+function snap(){
+  const costs={material:money('bMaterial'),power:money('bPower'),dep:money('bDep'),wear:money('bWear'),printer:money('bPrinter'),build:money('bBuild'),post:money('bPost'),license:money('bLicense'),other:money('bOther'),overhead:money('bOverhead'),self:money('bSelf'),markup:money('bMarkup'),sale:money('bSale')};
+  return {id:Date.now()+'-'+Math.random(),date:new Date().toLocaleDateString('de-DE'),customer:$('orderCustomer')?.value.trim()||'Ohne Kundenname',article:$('orderArticle')?.value.trim()||'Ohne Artikelname',qty:Math.max(1,parseInt($('orderQty')?.value||1)),note:$('orderNote')?.value.trim()||'',self:costs.self||money('self'),price:costs.sale||money('price'),status:'Offen',costs,filaments:Array.from(document.querySelectorAll('.filament-row')).map(r=>({g:r.querySelector('.fg')?.value||'',kg:r.querySelector('.fkg')?.value||'',note:r.querySelector('.fn')?.value||''}))};
+}
 function render(){
 const list=$('orderList');if(!list)return;const all=get(),data=filter==='all'?all:all.filter(o=>(o.status||'Offen')===filter);
-let revenue=0,profit=0;all.forEach(o=>{const status=o.status||'Offen';if(status==='Erledigt'||status==='Bezahlt'){revenue+=+o.price||0;profit+=(+o.price||0)-(+o.self||0)}});
+let revenue=0,profit=0;all.forEach(o=>{const status=o.status||'Offen';if(status==='Bezahlt'){revenue+=+o.price||0;profit+=(+o.price||0)-(+o.self||0)}});
 $('statOrders').textContent=all.length;$('statRevenue').textContent=euro(revenue);$('statProfit').textContent=euro(profit);
 if(!data.length){list.innerHTML='<div class="order-empty">'+(all.length?'Keine Aufträge in diesem Filter.':'Noch keine Aufträge gespeichert.')+'</div>';return}
 list.innerHTML=data.slice().reverse().map(o=>{const c=o.costs||{},status=o.status||'Offen',cls=status.toLowerCase().replace(' ','-'),gain=(+o.price||0)-(+o.self||0);
