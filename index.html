@@ -554,6 +554,92 @@ body{background:radial-gradient(620px 260px at 50% -60px,rgba(25,168,255,.12),tr
 </style>
 
 <style id="orders-v4">
+/* Aufträge – Dashboard im modernen App-Stil */
+.orders-dashboard{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:14px;
+  margin-bottom:16px;
+}
+.orders-dashboard .dashboard-card{
+  position:relative;
+  min-height:132px;
+  padding:18px 18px 16px;
+  border:1px solid rgba(72,105,145,.72);
+  border-radius:24px;
+  background:
+    radial-gradient(180px 90px at 0% 0%,rgba(35,120,255,.08),transparent 70%),
+    linear-gradient(145deg,rgba(17,29,46,.98),rgba(8,17,30,.98));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.035),0 10px 25px rgba(0,0,0,.16);
+  overflow:hidden;
+}
+.orders-dashboard .dashboard-card::after{
+  content:"";
+  position:absolute;
+  width:150px;height:150px;
+  right:-80px;top:-80px;
+  border-radius:50%;
+  background:rgba(35,145,255,.055);
+  pointer-events:none;
+}
+.dashboard-top{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  color:#aeb8c8;
+  font-size:17px;
+  font-weight:800;
+  line-height:1.1;
+}
+.dashboard-icon{
+  width:38px;height:38px;
+  flex:0 0 38px;
+  display:grid;
+  place-items:center;
+  border-radius:12px;
+  font-size:21px;
+  background:rgba(25,168,255,.10);
+  color:#70a6ff;
+}
+.dashboard-value{
+  margin-top:12px;
+  font-size:38px;
+  line-height:1;
+  font-weight:900;
+  letter-spacing:-1.3px;
+  font-variant-numeric:tabular-nums;
+}
+.dashboard-card.orange .dashboard-icon{color:#ff9d45;background:rgba(255,157,69,.11)}
+.dashboard-card.purple .dashboard-icon{color:#d74dff;background:rgba(215,77,255,.10)}
+.dashboard-card.green .dashboard-icon{color:#43e58a;background:rgba(67,229,138,.10)}
+.dashboard-card.green .dashboard-value{color:#43e58a}
+.dashboard-card.blue .dashboard-icon{color:#7196ff;background:rgba(113,150,255,.10)}
+.dashboard-card.warn .dashboard-icon{color:#ffad4e;background:rgba(255,173,78,.10)}
+.dashboard-card small{
+  display:block;
+  margin-top:7px;
+  color:var(--muted);
+  font-size:11px;
+  font-weight:700;
+}
+@media(max-width:700px){
+  .orders-dashboard{gap:10px}
+  .orders-dashboard .dashboard-card{
+    min-height:112px;
+    padding:14px 13px;
+    border-radius:20px;
+  }
+  .dashboard-top{font-size:14px;gap:9px}
+  .dashboard-icon{width:32px;height:32px;flex-basis:32px;border-radius:10px;font-size:18px}
+  .dashboard-value{font-size:29px;margin-top:10px;letter-spacing:-1px}
+}
+@media(max-width:390px){
+  .orders-dashboard{gap:8px}
+  .orders-dashboard .dashboard-card{min-height:106px;padding:12px 11px}
+  .dashboard-top{font-size:13px}
+  .dashboard-icon{width:29px;height:29px;flex-basis:29px;font-size:16px}
+  .dashboard-value{font-size:25px}
+}
 .orders-dashboard{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:14px}
 .orders-stat{padding:15px;border:1px solid var(--line);border-radius:16px;background:var(--soft)}
 .orders-stat .stat-label{font-size:12px;color:var(--muted);margin-bottom:5px}.orders-stat .stat-value{font-size:23px;font-weight:900}
@@ -731,9 +817,38 @@ body{background:radial-gradient(620px 260px at 50% -60px,rgba(25,168,255,.12),tr
 
 <div id="ordersView" style="display:none">
 <div class="orders-dashboard">
-<div class="orders-stat"><div class="stat-label">Aufträge</div><div class="stat-value" id="statOrders">0</div></div>
-<div class="orders-stat"><div class="stat-label">Umsatz (Erledigt + Bezahlt)</div><div class="stat-value" id="statRevenue">0,00 €</div></div>
-<div class="orders-stat"><div class="stat-label">Gewinn (Erledigt + Bezahlt)</div><div class="stat-value" id="statProfit">0,00 €</div></div>
+  <div class="dashboard-card blue">
+    <div class="dashboard-top"><span class="dashboard-icon">＄</span><span>Umsatz</span></div>
+    <div class="dashboard-value" id="dashRevenue">0,00 €</div>
+  </div>
+  <div class="dashboard-card orange">
+    <div class="dashboard-top"><span class="dashboard-icon">◈</span><span>Verkaufskosten</span></div>
+    <div class="dashboard-value" id="dashCosts">0,00 €</div>
+  </div>
+  <div class="dashboard-card blue">
+    <div class="dashboard-top"><span class="dashboard-icon">▤</span><span>Verkaufsaktivität</span></div>
+    <div class="dashboard-value" id="dashActivity">0 Verkäufe · 0 Artikel</div>
+  </div>
+  <div class="dashboard-card purple">
+    <div class="dashboard-top"><span class="dashboard-icon">▦</span><span>Betriebsausgaben</span></div>
+    <div class="dashboard-value" id="dashExpenses">0,00 €</div>
+  </div>
+  <div class="dashboard-card green">
+    <div class="dashboard-top"><span class="dashboard-icon">⌁</span><span>Nettogewinn</span></div>
+    <div class="dashboard-value" id="dashProfit">0,00 €</div>
+  </div>
+  <div class="dashboard-card green">
+    <div class="dashboard-top"><span class="dashboard-icon">%</span><span>Nettomarge</span></div>
+    <div class="dashboard-value" id="dashMargin">0 %</div>
+  </div>
+  <div class="dashboard-card green">
+    <div class="dashboard-top"><span class="dashboard-icon">✓</span><span>Bezahlt</span></div>
+    <div class="dashboard-value" id="dashPaid">0,00 €</div>
+  </div>
+  <div class="dashboard-card warn">
+    <div class="dashboard-top"><span class="dashboard-icon">◷</span><span>Ausstehend</span></div>
+    <div class="dashboard-value" id="dashOutstanding">0,00 €</div>
+  </div>
 </div>
 <div class="card">
 <div class="sectiontitle">📋 Aufträge</div>
@@ -1002,8 +1117,29 @@ function snap(){
 }
 function render(){
 const list=$('orderList');if(!list)return;const all=get(),data=filter==='all'?all:all.filter(o=>(o.status||'Offen')===filter);
-let revenue=0,profit=0;all.forEach(o=>{const status=o.status||'Offen';if(status==='Bezahlt'){revenue+=+o.price||0;profit+=(+o.price||0)-(+o.self||0)}});
-$('statOrders').textContent=all.length;$('statRevenue').textContent=euro(revenue);$('statProfit').textContent=euro(profit);
+let revenue=0, saleCosts=0, operating=0, paid=0, articles=0;
+all.forEach(o=>{
+  const status=o.status||'Offen';
+  const price=+o.price||0;
+  const self=+o.self||0;
+  const qty=Math.max(1,+o.qty||1);
+  revenue+=price;
+  saleCosts+=self;
+  operating+=+((o.costs||{}).overhead)||0;
+  articles+=qty;
+  if(status==='Bezahlt') paid+=price;
+});
+const outstanding=Math.max(0,revenue-paid);
+const netProfit=revenue-saleCosts-operating;
+const margin=revenue>0?(netProfit/revenue)*100:0;
+$('dashRevenue').textContent=euro(revenue);
+$('dashCosts').textContent=euro(saleCosts);
+$('dashActivity').textContent=all.length+' '+(all.length===1?'Verkauf':'Verkäufe')+' · '+articles+' '+(articles===1?'Artikel':'Artikel');
+$('dashExpenses').textContent=euro(operating);
+$('dashProfit').textContent=euro(netProfit);
+$('dashMargin').textContent=(Math.round(margin*10)/10).toLocaleString('de-DE')+' %';
+$('dashPaid').textContent=euro(paid);
+$('dashOutstanding').textContent=euro(outstanding);
 if(!data.length){list.innerHTML='<div class="order-empty">'+(all.length?'Keine Aufträge in diesem Filter.':'Noch keine Aufträge gespeichert.')+'</div>';return}
 list.innerHTML=data.slice().reverse().map(o=>{const c=o.costs||{},status=o.status||'Offen',cls=status.toLowerCase().replace(' ','-'),gain=(+o.price||0)-(+o.self||0);
 return `<div class="order-item">
