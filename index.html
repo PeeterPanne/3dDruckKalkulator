@@ -652,6 +652,49 @@ body{background:radial-gradient(620px 260px at 50% -60px,rgba(25,168,255,.12),tr
 .order-status-buttons{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}.order-status-buttons button{min-height:36px;border:1px solid var(--line);border-radius:10px;background:var(--soft);color:var(--text);font-weight:750;padding:0 10px;cursor:pointer}
 .profit-positive{color:var(--green)}.profit-negative{color:var(--orange)}
 @media(max-width:700px){.orders-dashboard{grid-template-columns:1fr}.order-detail-grid{grid-template-columns:1fr}}
+
+/* Kompakteres Auftrags-Dashboard */
+.orders-dashboard{
+  gap:9px !important;
+  margin-bottom:12px !important;
+}
+.orders-dashboard .dashboard-card{
+  min-height:92px !important;
+  padding:11px 13px !important;
+  border-radius:18px !important;
+}
+.dashboard-top{
+  font-size:13px !important;
+  gap:7px !important;
+}
+.dashboard-icon{
+  width:27px !important;
+  height:27px !important;
+  flex-basis:27px !important;
+  border-radius:8px !important;
+  font-size:15px !important;
+}
+.dashboard-value{
+  margin-top:7px !important;
+  font-size:24px !important;
+  letter-spacing:-.7px !important;
+}
+.dashboard-card small{font-size:9px !important;margin-top:4px !important}
+@media(max-width:390px){
+  .orders-dashboard{gap:7px !important}
+  .orders-dashboard .dashboard-card{
+    min-height:84px !important;
+    padding:9px 10px !important;
+    border-radius:16px !important;
+  }
+  .dashboard-top{font-size:11px !important;gap:5px !important}
+  .dashboard-icon{
+    width:23px !important;height:23px !important;flex-basis:23px !important;
+    border-radius:7px !important;font-size:13px !important;
+  }
+  .dashboard-value{font-size:21px !important;margin-top:6px !important}
+}
+
 </style>
 </head>
 <body>
