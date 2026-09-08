@@ -218,6 +218,30 @@ input{
 .timebox{gap:9px !important}
 .timebox-3{grid-template-columns:repeat(3,minmax(0,1fr)) !important}
 .timebox-3 input{text-align:center !important;padding-left:8px !important;padding-right:8px !important}
+.timebox-4{
+  display:grid !important;
+  grid-template-columns:repeat(4,minmax(0,1fr)) !important;
+  gap:7px !important;
+}
+.timebox-4 > div{min-width:0 !important}
+.timebox-4 input{
+  width:100% !important;
+  text-align:center !important;
+  padding-left:4px !important;
+  padding-right:4px !important;
+  font-size:14px !important;
+}
+.timebox-4 label{
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+#decimalTimeHint{margin-top:8px;padding:9px 11px;border:1px solid var(--line);border-radius:12px;background:var(--soft)}
+@media(max-width:390px){
+  .timebox-4{gap:5px !important}
+  .timebox-4 input{font-size:13px !important;padding-left:2px !important;padding-right:2px !important}
+  .timebox-4 label{font-size:10px !important}
+}
 
 /* Multi color */
 .multi-head{
@@ -584,11 +608,13 @@ body{background:radial-gradient(620px 260px at 50% -60px,rgba(25,168,255,.12),tr
   <div class="muted" style="font-size:15px;margin-top:-8px">Gib die Werte für deinen geplanten Druck ein.</div>
 
   <div class="grid" style="margin-top:17px">
-    <div class="full"><label>🕒 Druckzeit</label><div class="timebox timebox-3">
-      <div><label style="font-size:11px">Tage</label><input id="days" type="number" value="0" min="0" step="1" inputmode="numeric"></div>
-      <div><label style="font-size:11px">Stunden</label><input id="hours" type="number" value="13" min="0" max="23" step="1" inputmode="numeric"></div>
-      <div><label style="font-size:11px">Minuten</label><input id="minutes" type="number" value="37" min="0" max="59" step="1" inputmode="numeric"></div>
-    </div></div>
+    <div class="full"><label>🕒 Druckzeit</label><div class="timebox timebox-4">
+       <div><label style="font-size:11px">Tage</label><input id="days" type="number" value="0" min="0" step="1" inputmode="numeric"></div>
+       <div><label style="font-size:11px">Stunden</label><input id="hours" type="number" value="13" min="0" max="23" step="1" inputmode="numeric"></div>
+       <div><label style="font-size:11px">Minuten</label><input id="minutes" type="number" value="37" min="0" max="59" step="1" inputmode="numeric"></div>
+       <div><label style="font-size:11px">Zeit (h)</label><input id="decimalHours" type="number" value="0" min="0" step="0.1" inputmode="decimal" placeholder="z. B. 34,9"></div>
+     </div>
+     <div id="decimalTimeHint" class="calc-live">Dezimalzeit ist auf 0 – Tage, Stunden und Minuten werden verwendet.</div></div>
     <div><label>Druckplatten / Starts</label><input id="plates" type="number" value="1" min="0" step="1" inputmode="numeric"></div>
     <div><label>Modelldatei / Lizenz (€)</label><input id="file" type="number" value="0" min="0" step="0.01" inputmode="decimal"></div>
     <div class="full"><label>Sonstige Kosten (€)</label><input id="extra" type="number" value="0" min="0" step="0.01" inputmode="decimal"></div>
@@ -849,13 +875,37 @@ body{background:radial-gradient(620px 260px at 50% -60px,rgba(25,168,255,.12),tr
       if(overheadRow) overheadRow.style.display=mode==='business'?'flex':'none';
     }
 
+    function updateTimeDisplay(h,source){
+      const el=$('decimalTimeHint');
+      if(!el) return;
+      const totalMinutes=Math.round(h*60);
+      const days=Math.floor(totalMinutes/1440);
+      const rem=totalMinutes%1440;
+      const hours=Math.floor(rem/60);
+      const minutes=rem%60;
+      if(source==='decimal'){
+        el.innerHTML=`<strong>Entspricht:</strong> ${days} Tag${days===1?'':'e'} · ${hours} Std. · ${minutes} Min.`;
+      }else{
+        el.innerHTML=`<strong>Dezimalzeit:</strong> ${h.toFixed(2).replace('.',',')} h · ${days} Tag${days===1?'':'e'} · ${hours} Std. · ${minutes} Min.`;
+      }
+    }
+
     function calc(){
       try{
         const business=mode==='business';
-        const days=Math.floor(num('days'));
-        const hours=Math.min(23,Math.floor(num('hours')));
-        const minutes=Math.min(59,Math.floor(num('minutes')));
-        const h=days*24+hours+minutes/60;
+        const decimalHours=parseNum($('decimalHours')?.value,0);
+        let h;
+        let timeSource='normal';
+        if(decimalHours>0){
+          h=decimalHours;
+          timeSource='decimal';
+        }else{
+          const days=Math.floor(num('days'));
+          const hours=Math.min(23,Math.floor(num('hours')));
+          const minutes=Math.min(59,Math.floor(num('minutes')));
+          h=days*24+hours+minutes/60;
+        }
+        updateTimeDisplay(h,timeSource);
         const plates=Math.floor(num('plates'));
         const material=materialCost();
         const power=h*num('watts')/1000*num('powerprice');
