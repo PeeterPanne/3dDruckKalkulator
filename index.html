@@ -218,30 +218,6 @@ input{
 .timebox{gap:9px !important}
 .timebox-3{grid-template-columns:repeat(3,minmax(0,1fr)) !important}
 .timebox-3 input{text-align:center !important;padding-left:8px !important;padding-right:8px !important}
-.timebox-4{
-  display:grid !important;
-  grid-template-columns:repeat(4,minmax(0,1fr)) !important;
-  gap:7px !important;
-}
-.timebox-4 > div{min-width:0 !important}
-.timebox-4 input{
-  width:100% !important;
-  text-align:center !important;
-  padding-left:4px !important;
-  padding-right:4px !important;
-  font-size:14px !important;
-}
-.timebox-4 label{
-  white-space:nowrap;
-  overflow:hidden;
-  text-overflow:ellipsis;
-}
-#decimalTimeHint{margin-top:8px;padding:9px 11px;border:1px solid var(--line);border-radius:12px;background:var(--soft)}
-@media(max-width:390px){
-  .timebox-4{gap:5px !important}
-  .timebox-4 input{font-size:13px !important;padding-left:2px !important;padding-right:2px !important}
-  .timebox-4 label{font-size:10px !important}
-}
 
 /* Multi color */
 .multi-head{
@@ -554,92 +530,6 @@ body{background:radial-gradient(620px 260px at 50% -60px,rgba(25,168,255,.12),tr
 </style>
 
 <style id="orders-v4">
-/* Aufträge – Dashboard im modernen App-Stil */
-.orders-dashboard{
-  display:grid;
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:14px;
-  margin-bottom:16px;
-}
-.orders-dashboard .dashboard-card{
-  position:relative;
-  min-height:132px;
-  padding:18px 18px 16px;
-  border:1px solid rgba(72,105,145,.72);
-  border-radius:24px;
-  background:
-    radial-gradient(180px 90px at 0% 0%,rgba(35,120,255,.08),transparent 70%),
-    linear-gradient(145deg,rgba(17,29,46,.98),rgba(8,17,30,.98));
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.035),0 10px 25px rgba(0,0,0,.16);
-  overflow:hidden;
-}
-.orders-dashboard .dashboard-card::after{
-  content:"";
-  position:absolute;
-  width:150px;height:150px;
-  right:-80px;top:-80px;
-  border-radius:50%;
-  background:rgba(35,145,255,.055);
-  pointer-events:none;
-}
-.dashboard-top{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  color:#aeb8c8;
-  font-size:17px;
-  font-weight:800;
-  line-height:1.1;
-}
-.dashboard-icon{
-  width:38px;height:38px;
-  flex:0 0 38px;
-  display:grid;
-  place-items:center;
-  border-radius:12px;
-  font-size:21px;
-  background:rgba(25,168,255,.10);
-  color:#70a6ff;
-}
-.dashboard-value{
-  margin-top:12px;
-  font-size:38px;
-  line-height:1;
-  font-weight:900;
-  letter-spacing:-1.3px;
-  font-variant-numeric:tabular-nums;
-}
-.dashboard-card.orange .dashboard-icon{color:#ff9d45;background:rgba(255,157,69,.11)}
-.dashboard-card.purple .dashboard-icon{color:#d74dff;background:rgba(215,77,255,.10)}
-.dashboard-card.green .dashboard-icon{color:#43e58a;background:rgba(67,229,138,.10)}
-.dashboard-card.green .dashboard-value{color:#43e58a}
-.dashboard-card.blue .dashboard-icon{color:#7196ff;background:rgba(113,150,255,.10)}
-.dashboard-card.warn .dashboard-icon{color:#ffad4e;background:rgba(255,173,78,.10)}
-.dashboard-card small{
-  display:block;
-  margin-top:7px;
-  color:var(--muted);
-  font-size:11px;
-  font-weight:700;
-}
-@media(max-width:700px){
-  .orders-dashboard{gap:10px}
-  .orders-dashboard .dashboard-card{
-    min-height:112px;
-    padding:14px 13px;
-    border-radius:20px;
-  }
-  .dashboard-top{font-size:14px;gap:9px}
-  .dashboard-icon{width:32px;height:32px;flex-basis:32px;border-radius:10px;font-size:18px}
-  .dashboard-value{font-size:29px;margin-top:10px;letter-spacing:-1px}
-}
-@media(max-width:390px){
-  .orders-dashboard{gap:8px}
-  .orders-dashboard .dashboard-card{min-height:106px;padding:12px 11px}
-  .dashboard-top{font-size:13px}
-  .dashboard-icon{width:29px;height:29px;flex-basis:29px;font-size:16px}
-  .dashboard-value{font-size:25px}
-}
 .orders-dashboard{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:14px}
 .orders-stat{padding:15px;border:1px solid var(--line);border-radius:16px;background:var(--soft)}
 .orders-stat .stat-label{font-size:12px;color:var(--muted);margin-bottom:5px}.orders-stat .stat-value{font-size:23px;font-weight:900}
@@ -652,49 +542,6 @@ body{background:radial-gradient(620px 260px at 50% -60px,rgba(25,168,255,.12),tr
 .order-status-buttons{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}.order-status-buttons button{min-height:36px;border:1px solid var(--line);border-radius:10px;background:var(--soft);color:var(--text);font-weight:750;padding:0 10px;cursor:pointer}
 .profit-positive{color:var(--green)}.profit-negative{color:var(--orange)}
 @media(max-width:700px){.orders-dashboard{grid-template-columns:1fr}.order-detail-grid{grid-template-columns:1fr}}
-
-/* Kompakteres Auftrags-Dashboard */
-.orders-dashboard{
-  gap:9px !important;
-  margin-bottom:12px !important;
-}
-.orders-dashboard .dashboard-card{
-  min-height:92px !important;
-  padding:11px 13px !important;
-  border-radius:18px !important;
-}
-.dashboard-top{
-  font-size:13px !important;
-  gap:7px !important;
-}
-.dashboard-icon{
-  width:27px !important;
-  height:27px !important;
-  flex-basis:27px !important;
-  border-radius:8px !important;
-  font-size:15px !important;
-}
-.dashboard-value{
-  margin-top:7px !important;
-  font-size:24px !important;
-  letter-spacing:-.7px !important;
-}
-.dashboard-card small{font-size:9px !important;margin-top:4px !important}
-@media(max-width:390px){
-  .orders-dashboard{gap:7px !important}
-  .orders-dashboard .dashboard-card{
-    min-height:84px !important;
-    padding:9px 10px !important;
-    border-radius:16px !important;
-  }
-  .dashboard-top{font-size:11px !important;gap:5px !important}
-  .dashboard-icon{
-    width:23px !important;height:23px !important;flex-basis:23px !important;
-    border-radius:7px !important;font-size:13px !important;
-  }
-  .dashboard-value{font-size:21px !important;margin-top:6px !important}
-}
-
 </style>
 </head>
 <body>
@@ -737,13 +584,11 @@ body{background:radial-gradient(620px 260px at 50% -60px,rgba(25,168,255,.12),tr
   <div class="muted" style="font-size:15px;margin-top:-8px">Gib die Werte für deinen geplanten Druck ein.</div>
 
   <div class="grid" style="margin-top:17px">
-    <div class="full"><label>🕒 Druckzeit</label><div class="timebox timebox-4">
-       <div><label style="font-size:11px">Tage</label><input id="days" type="number" value="0" min="0" step="1" inputmode="numeric"></div>
-       <div><label style="font-size:11px">Stunden</label><input id="hours" type="number" value="13" min="0" max="23" step="1" inputmode="numeric"></div>
-       <div><label style="font-size:11px">Minuten</label><input id="minutes" type="number" value="37" min="0" max="59" step="1" inputmode="numeric"></div>
-       <div><label style="font-size:11px">Zeit (h)</label><input id="decimalHours" type="number" value="0" min="0" step="0.1" inputmode="decimal" placeholder="z. B. 34,9"></div>
-     </div>
-     <div id="decimalTimeHint" class="calc-live">Dezimalzeit ist auf 0 – Tage, Stunden und Minuten werden verwendet.</div></div>
+    <div class="full"><label>🕒 Druckzeit</label><div class="timebox timebox-3">
+      <div><label style="font-size:11px">Tage</label><input id="days" type="number" value="0" min="0" step="1" inputmode="numeric"></div>
+      <div><label style="font-size:11px">Stunden</label><input id="hours" type="number" value="13" min="0" max="23" step="1" inputmode="numeric"></div>
+      <div><label style="font-size:11px">Minuten</label><input id="minutes" type="number" value="37" min="0" max="59" step="1" inputmode="numeric"></div>
+    </div></div>
     <div><label>Druckplatten / Starts</label><input id="plates" type="number" value="1" min="0" step="1" inputmode="numeric"></div>
     <div><label>Modelldatei / Lizenz (€)</label><input id="file" type="number" value="0" min="0" step="0.01" inputmode="decimal"></div>
     <div class="full"><label>Sonstige Kosten (€)</label><input id="extra" type="number" value="0" min="0" step="0.01" inputmode="decimal"></div>
@@ -860,38 +705,9 @@ body{background:radial-gradient(620px 260px at 50% -60px,rgba(25,168,255,.12),tr
 
 <div id="ordersView" style="display:none">
 <div class="orders-dashboard">
-  <div class="dashboard-card blue">
-    <div class="dashboard-top"><span class="dashboard-icon">＄</span><span>Umsatz</span></div>
-    <div class="dashboard-value" id="dashRevenue">0,00 €</div>
-  </div>
-  <div class="dashboard-card orange">
-    <div class="dashboard-top"><span class="dashboard-icon">◈</span><span>Verkaufskosten</span></div>
-    <div class="dashboard-value" id="dashCosts">0,00 €</div>
-  </div>
-  <div class="dashboard-card blue">
-    <div class="dashboard-top"><span class="dashboard-icon">▤</span><span>Verkaufsaktivität</span></div>
-    <div class="dashboard-value" id="dashActivity">0 Verkäufe · 0 Artikel</div>
-  </div>
-  <div class="dashboard-card purple">
-    <div class="dashboard-top"><span class="dashboard-icon">▦</span><span>Betriebsausgaben</span></div>
-    <div class="dashboard-value" id="dashExpenses">0,00 €</div>
-  </div>
-  <div class="dashboard-card green">
-    <div class="dashboard-top"><span class="dashboard-icon">⌁</span><span>Nettogewinn</span></div>
-    <div class="dashboard-value" id="dashProfit">0,00 €</div>
-  </div>
-  <div class="dashboard-card green">
-    <div class="dashboard-top"><span class="dashboard-icon">%</span><span>Nettomarge</span></div>
-    <div class="dashboard-value" id="dashMargin">0 %</div>
-  </div>
-  <div class="dashboard-card green">
-    <div class="dashboard-top"><span class="dashboard-icon">✓</span><span>Bezahlt</span></div>
-    <div class="dashboard-value" id="dashPaid">0,00 €</div>
-  </div>
-  <div class="dashboard-card warn">
-    <div class="dashboard-top"><span class="dashboard-icon">◷</span><span>Ausstehend</span></div>
-    <div class="dashboard-value" id="dashOutstanding">0,00 €</div>
-  </div>
+<div class="orders-stat"><div class="stat-label">Aufträge</div><div class="stat-value" id="statOrders">0</div></div>
+<div class="orders-stat"><div class="stat-label">Umsatz (Erledigt + Bezahlt)</div><div class="stat-value" id="statRevenue">0,00 €</div></div>
+<div class="orders-stat"><div class="stat-label">Gewinn (Erledigt + Bezahlt)</div><div class="stat-value" id="statProfit">0,00 €</div></div>
 </div>
 <div class="card">
 <div class="sectiontitle">📋 Aufträge</div>
@@ -1033,37 +849,13 @@ body{background:radial-gradient(620px 260px at 50% -60px,rgba(25,168,255,.12),tr
       if(overheadRow) overheadRow.style.display=mode==='business'?'flex':'none';
     }
 
-    function updateTimeDisplay(h,source){
-      const el=$('decimalTimeHint');
-      if(!el) return;
-      const totalMinutes=Math.round(h*60);
-      const days=Math.floor(totalMinutes/1440);
-      const rem=totalMinutes%1440;
-      const hours=Math.floor(rem/60);
-      const minutes=rem%60;
-      if(source==='decimal'){
-        el.innerHTML=`<strong>Entspricht:</strong> ${days} Tag${days===1?'':'e'} · ${hours} Std. · ${minutes} Min.`;
-      }else{
-        el.innerHTML=`<strong>Dezimalzeit:</strong> ${h.toFixed(2).replace('.',',')} h · ${days} Tag${days===1?'':'e'} · ${hours} Std. · ${minutes} Min.`;
-      }
-    }
-
     function calc(){
       try{
         const business=mode==='business';
-        const decimalHours=parseNum($('decimalHours')?.value,0);
-        let h;
-        let timeSource='normal';
-        if(decimalHours>0){
-          h=decimalHours;
-          timeSource='decimal';
-        }else{
-          const days=Math.floor(num('days'));
-          const hours=Math.min(23,Math.floor(num('hours')));
-          const minutes=Math.min(59,Math.floor(num('minutes')));
-          h=days*24+hours+minutes/60;
-        }
-        updateTimeDisplay(h,timeSource);
+        const days=Math.floor(num('days'));
+        const hours=Math.min(23,Math.floor(num('hours')));
+        const minutes=Math.min(59,Math.floor(num('minutes')));
+        const h=days*24+hours+minutes/60;
         const plates=Math.floor(num('plates'));
         const material=materialCost();
         const power=h*num('watts')/1000*num('powerprice');
@@ -1160,29 +952,8 @@ function snap(){
 }
 function render(){
 const list=$('orderList');if(!list)return;const all=get(),data=filter==='all'?all:all.filter(o=>(o.status||'Offen')===filter);
-let revenue=0, saleCosts=0, operating=0, paid=0, articles=0;
-all.forEach(o=>{
-  const status=o.status||'Offen';
-  const price=+o.price||0;
-  const self=+o.self||0;
-  const qty=Math.max(1,+o.qty||1);
-  revenue+=price;
-  saleCosts+=self;
-  operating+=+((o.costs||{}).overhead)||0;
-  articles+=qty;
-  if(status==='Bezahlt') paid+=price;
-});
-const outstanding=Math.max(0,revenue-paid);
-const netProfit=revenue-saleCosts-operating;
-const margin=revenue>0?(netProfit/revenue)*100:0;
-$('dashRevenue').textContent=euro(revenue);
-$('dashCosts').textContent=euro(saleCosts);
-$('dashActivity').textContent=all.length+' '+(all.length===1?'Verkauf':'Verkäufe')+' · '+articles+' '+(articles===1?'Artikel':'Artikel');
-$('dashExpenses').textContent=euro(operating);
-$('dashProfit').textContent=euro(netProfit);
-$('dashMargin').textContent=(Math.round(margin*10)/10).toLocaleString('de-DE')+' %';
-$('dashPaid').textContent=euro(paid);
-$('dashOutstanding').textContent=euro(outstanding);
+let revenue=0,profit=0;all.forEach(o=>{const status=o.status||'Offen';if(status==='Bezahlt'){revenue+=+o.price||0;profit+=(+o.price||0)-(+o.self||0)}});
+$('statOrders').textContent=all.length;$('statRevenue').textContent=euro(revenue);$('statProfit').textContent=euro(profit);
 if(!data.length){list.innerHTML='<div class="order-empty">'+(all.length?'Keine Aufträge in diesem Filter.':'Noch keine Aufträge gespeichert.')+'</div>';return}
 list.innerHTML=data.slice().reverse().map(o=>{const c=o.costs||{},status=o.status||'Offen',cls=status.toLowerCase().replace(' ','-'),gain=(+o.price||0)-(+o.self||0);
 return `<div class="order-item">
