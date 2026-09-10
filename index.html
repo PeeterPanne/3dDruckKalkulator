@@ -21,7 +21,7 @@ body{touch-action:pan-y;overflow-x:hidden;margin:0;background:radial-gradient(ci
 body:not(.dark){--bg:#f3f4f6;--card:#fff;--card2:#fff;--text:#111827;--muted:#6b7280;--line:#e5e7eb;--soft:#eef0f3;--input:#fafafa}
 .app{max-width:720px;margin:auto;padding:env(safe-area-inset-top) 18px calc(30px + env(safe-area-inset-bottom))}
 header{padding:24px 4px 20px;display:flex;justify-content:space-between;align-items:center}
-h1{font-size:34px;margin:0 0 2px;letter-spacing:-1.1px;font-weight:850}.sub{color:var(--muted);font-size:15px}
+h1{font-size:34px;margin:0 0 6px;letter-spacing:-1.1px;font-weight:850;line-height:1.08}h1 .title-blue{color:#1597ff}h1 .title-rest{color:var(--text)}.sub{color:var(--muted);font-size:17px;line-height:1.45}
 .card{background:linear-gradient(180deg,var(--card2),var(--card));border:1px solid var(--line);border-radius:24px;padding:20px;margin-bottom:15px;box-shadow:0 8px 28px rgba(0,0,0,.12)}
 .sectiontitle{font-size:23px;font-weight:850;margin-bottom:16px;letter-spacing:-.4px}
 label{display:block;font-size:14px;font-weight:700;color:var(--muted);margin:0 0 7px}
@@ -639,7 +639,7 @@ header{padding-top:max(14px,env(safe-area-inset-top));}
   </div>
 </div>
 <div class="app">
-<header><div><h1>3D Kalkulator</h1><div class="sub">Dein 3D Druckkostenrechner</div></div><div style="display:flex;gap:7px"><button class="reset" id="reset" aria-label="Zurücksetzen">↺</button><button class="settings-btn" id="openSettings" aria-label="Einstellungen">⚙️</button></div></header>
+<header><div><h1><span class="title-blue">3D</span> <span class="title-rest">Druck Kalkulator</span></h1><div class="sub">Berechne deine Druckkosten<br>einfach und genau</div></div><div style="display:flex;gap:7px"><button class="reset" id="reset" aria-label="Zurücksetzen">↺</button><button class="settings-btn" id="openSettings" aria-label="Einstellungen">⚙️</button></div></header>
 <div class="orders-nav">
   <button type="button" id="showCalculator" class="active">
     <span class="nav-tile-icon calculator-icon" aria-hidden="true">
