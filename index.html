@@ -566,8 +566,35 @@ body{background:radial-gradient(620px 260px at 50% -60px,rgba(25,168,255,.12),tr
 .order-status-buttons{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}.order-status-buttons button{min-height:36px;border:1px solid var(--line);border-radius:10px;background:var(--soft);color:var(--text);font-weight:750;padding:0 10px;cursor:pointer}
 .profit-positive{color:var(--green)}.profit-negative{color:var(--orange)}
 @media(max-width:700px){.orders-dashboard{grid-template-columns:1fr}.order-detail-grid{grid-template-columns:1fr}}
+.order-native-actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:12px}.order-native-actions button{min-height:40px;border:1px solid var(--line);border-radius:11px;background:var(--soft);color:var(--text);font-weight:800;padding:0 11px;cursor:pointer}.order-native-actions button:active{transform:scale(.98)}
+.label-modal{position:fixed;inset:0;z-index:100001;display:none}.label-modal.open{display:block}.label-backdrop{position:absolute;inset:0;background:rgba(0,0,0,.62);backdrop-filter:blur(5px)}.label-sheet{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:min(430px,calc(100% - 24px));max-height:92vh;overflow:auto;background:var(--card);color:var(--text);border:1px solid var(--line);border-radius:24px;padding:18px;box-shadow:0 24px 80px rgba(0,0,0,.35)}.label-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}.label-head strong{font-size:19px}.label-close{width:38px;height:38px;border:0;border-radius:12px;background:var(--soft);color:var(--text);font-size:25px;cursor:pointer}.label-preview{background:#fff;color:#111;border-radius:16px;padding:18px;text-align:center}.label-preview .brand{font-size:18px;font-weight:900}.label-preview .label-title{font-size:20px;font-weight:900;margin-top:8px}.label-preview .label-meta{font-size:13px;margin-top:4px}.label-preview img{width:180px;height:180px;margin:15px auto 8px;display:block}.label-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}.label-actions button{min-height:44px;border:1px solid var(--line);border-radius:12px;background:var(--soft);color:var(--text);font-weight:850;cursor:pointer}.label-note{font-size:12px;color:var(--muted);line-height:1.45;margin-top:10px}.print-label-only{display:none}
+@media print{body *{visibility:hidden!important}.print-label-only,.print-label-only *{visibility:visible!important}.print-label-only{display:block!important;position:absolute;left:0;top:0;width:100%;padding:20px;background:#fff;color:#111}.print-label-only .print-label-box{width:80mm;min-height:80mm;border:1px solid #111;border-radius:8px;padding:8mm;text-align:center;margin:0 auto}.print-label-only img{width:45mm;height:45mm;display:block;margin:6mm auto}.print-label-only .ptitle{font-size:18pt;font-weight:900}.print-label-only .pmeta{font-size:10pt;margin-top:2mm}}
 </style>
 
+
+<style id="native-app-style">
+header{padding-top:max(14px,env(safe-area-inset-top));}
+.settings-btn{border:1px solid var(--line);background:var(--soft);color:var(--text);width:40px;height:40px;border-radius:12px;font-size:18px;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.08);}
+.native-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:15px;}
+.native-actions button,.settings-actions button,.settings-choice-row button{min-height:44px;border:1px solid var(--line);border-radius:12px;background:var(--soft);color:var(--text);font-weight:850;padding:0 12px;cursor:pointer;}
+.native-actions button:active,.settings-actions button:active,.settings-choice-row button:active,.settings-btn:active{transform:scale(.98);}
+.settings-modal{position:fixed;inset:0;z-index:100000;display:none;}
+.settings-modal.open{display:block;}
+.settings-backdrop{position:absolute;inset:0;background:rgba(0,0,0,.58);backdrop-filter:blur(4px);}
+.settings-sheet{position:absolute;left:50%;bottom:0;transform:translateX(-50%);width:min(680px,100%);max-height:88vh;overflow:auto;background:var(--card);color:var(--text);border:1px solid var(--line);border-bottom:0;border-radius:24px 24px 0 0;padding:18px 18px calc(22px + env(safe-area-inset-bottom));box-shadow:0 -20px 60px rgba(0,0,0,.3);}
+.settings-head{display:flex;align-items:flex-start;justify-content:space-between;gap:15px;padding-bottom:16px;border-bottom:1px solid var(--line);}
+.settings-head strong{font-size:20px;}
+.settings-close{width:38px;height:38px;border:0;border-radius:12px;background:var(--soft);color:var(--text);font-size:26px;line-height:1;cursor:pointer;}
+.settings-section{padding:16px 0;border-bottom:1px solid var(--line);}
+.settings-section:last-child{border-bottom:0;}
+.settings-label{font-size:12px;font-weight:900;text-transform:uppercase;letter-spacing:.7px;color:var(--muted);margin-bottom:9px;}
+.settings-choice-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+.settings-actions{display:grid;gap:8px;}
+.danger-action{color:#d84b4b!important;}
+.settings-info{display:flex;justify-content:space-between;gap:12px;padding:9px 0;}
+.settings-note{font-size:13px;color:var(--muted);line-height:1.5;}
+@media(max-width:520px){.native-actions{grid-template-columns:1fr;} .settings-choice-row{grid-template-columns:1fr 1fr 1fr;} .settings-sheet{border-radius:22px 22px 0 0;}}
+</style>
 <style id="app-splash-style">
 #appSplash{position:fixed;inset:0;z-index:99999;display:grid;place-items:center;background:#070b12;color:#fff;opacity:1;visibility:visible;transition:opacity .35s ease,visibility .35s ease;pointer-events:auto;}
 #appSplash.hide{opacity:0;visibility:hidden;pointer-events:none;}
@@ -587,7 +614,7 @@ body{background:radial-gradient(620px 260px at 50% -60px,rgba(25,168,255,.12),tr
   </div>
 </div>
 <div class="app">
-<header><div><h1>3D Kalkulator</h1><div class="sub">Dein 3D Druckkostenrechner</div></div><div style="display:flex;gap:7px"><button class="theme" id="theme" aria-label="Darkmodus">☾</button><button class="reset" id="reset" aria-label="Zurücksetzen">↺</button></div></header>
+<header><div><h1>3D Kalkulator</h1><div class="sub">Dein 3D Druckkostenrechner</div></div><div style="display:flex;gap:7px"><button class="theme" id="theme" aria-label="Darkmodus">☾</button><button class="reset" id="reset" aria-label="Zurücksetzen">↺</button><button class="settings-btn" id="openSettings" aria-label="Einstellungen">⚙️</button></div></header>
 <div class="orders-nav">
   <button type="button" id="showCalculator" class="active">
     <span class="nav-tile-icon calculator-icon" aria-hidden="true">
@@ -708,6 +735,10 @@ body{background:radial-gradient(620px 260px at 50% -60px,rgba(25,168,255,.12),tr
       <option value="5">auf 5,00 €</option>
     </select>
   </div>
+  <div class="native-actions" aria-label="Schnellaktionen">
+    <button type="button" id="copyResult">📋 Ergebnis kopieren</button>
+    <button type="button" id="shareResult">📤 Ergebnis teilen</button>
+  </div>
 </div>
 
 
@@ -764,6 +795,28 @@ body{background:radial-gradient(620px 260px at 50% -60px,rgba(25,168,255,.12),tr
 <div class="muted" style="margin-bottom:12px">Details zeigt die komplette Kostenaufstellung des gespeicherten Auftrags.</div>
 <div class="order-list" id="orderList"></div>
 </div>
+</div>
+
+<div class="label-modal" id="labelModal" aria-hidden="true">
+  <div class="label-backdrop" data-close-label></div>
+  <div class="label-sheet" role="dialog" aria-modal="true" aria-labelledby="labelTitle">
+    <div class="label-head"><strong id="labelTitle">🏷️ Etikett & QR-Code</strong><button type="button" class="label-close" data-close-label aria-label="Schließen">×</button></div>
+    <div class="label-preview" id="labelPreview"></div>
+    <div class="label-actions"><button type="button" id="printLabel">🖨️ Etikett drucken</button><button type="button" id="shareLabel">📤 Teilen</button><button type="button" id="copyLabel">📋 Kopieren</button><button type="button" id="downloadLabel">💾 Speichern</button></div>
+    <div class="label-note">Der QR-Code enthält die Auftragsdaten als Text. Für die QR-Darstellung wird derzeit ein Online-QR-Dienst verwendet; Kalkulationen und Aufträge selbst bleiben lokal auf dem Gerät.</div>
+  </div>
+</div>
+<div class="print-label-only" id="printLabelOnly"></div>
+
+<div class="settings-modal" id="settingsModal" aria-hidden="true">
+  <div class="settings-backdrop" data-close-settings></div>
+  <div class="settings-sheet" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
+    <div class="settings-head"><div><strong id="settingsTitle">⚙️ App-Einstellungen</strong><div class="muted">Deine Daten bleiben auf diesem Gerät.</div></div><button type="button" class="settings-close" data-close-settings aria-label="Schließen">×</button></div>
+    <div class="settings-section"><div class="settings-label">Darstellung</div><div class="settings-choice-row"><button type="button" data-theme-choice="dark">🌙 Dunkel</button><button type="button" data-theme-choice="light">☀️ Hell</button><button type="button" data-theme-choice="auto">⚙️ System</button></div></div>
+    <div class="settings-section"><div class="settings-label">Daten</div><div class="settings-actions"><button type="button" id="exportOrders">📦 Aufträge exportieren</button><button type="button" id="exportCalculation">📄 Aktuelle Kalkulation exportieren</button><button type="button" id="clearOrders" class="danger-action">🗑️ Alle Aufträge löschen</button></div></div>
+    <div class="settings-section"><div class="settings-label">App</div><div class="settings-info"><span>Gespeicherte Aufträge</span><strong id="settingsOrderCount">0</strong></div><div class="settings-info"><span>Offline-Modus</span><strong>✓ Aktiv</strong></div><div class="settings-info"><span>Version</span><strong>App Preview 1.0</strong></div></div>
+    <div class="settings-section settings-note">📱 Diese Version ist bereits für den nächsten Schritt zur echten iPhone-App vorbereitet: lokale Daten, Teilen, Kopieren und App-Einstellungen.</div>
+  </div>
 </div>
 
 <script>
@@ -1036,6 +1089,7 @@ return `<div class="order-item">
 ${[['Material','material'],['Strom','power'],['Drucker-Abschreibung','dep'],['Verschleiß','wear'],['Druckerarbeit / Setup','printer'],['Konstruktion','build'],['Nachbearbeitung','post'],['Modelldatei / Lizenz','license'],['Sonstige Kosten','other'],['Betriebskosten','overhead'],['Selbstkosten','self'],['Aufschlag / Rabatt','markup'],['Verkaufspreis','sale']].map(x=>`<div class="cost-line"><span>${x[0]}</span><strong>${euro(c[x[1]])}</strong></div>`).join('')}
 </div>
 ${o.note?`<div class="order-note"><strong>Notiz:</strong> ${esc(o.note)}</div>`:''}
+<div class="order-native-actions"><button type="button" data-a="label" data-id="${esc(o.id)}">🏷️ Etikett / QR</button><button type="button" data-a="share-order" data-id="${esc(o.id)}">📤 Teilen</button><button type="button" data-a="copy-order" data-id="${esc(o.id)}">📋 Kopieren</button></div>
 <div class="order-status-buttons">${['Offen','In Arbeit','Erledigt','Bezahlt'].map(x=>`<button type="button" data-a="status" data-status="${x}" data-id="${esc(o.id)}">${x}</button>`).join('')}</div>
 </div></div>`}).join('');
 }
@@ -1048,13 +1102,122 @@ $('orderList')?.addEventListener('click',e=>{let b=e.target.closest('button');if
 if(b.dataset.a==='detail')$('detail-'+id)?.classList.toggle('open');
 else if(b.dataset.a==='delete'){put(d.filter(x=>x.id!==id));render()}
 else if(b.dataset.a==='status'){o.status=b.dataset.status;put(d);render()}
-else if(b.dataset.a==='edit'){$('orderCustomer').value=o.customer||'';$('orderArticle').value=o.article||'';$('orderQty').value=o.qty||1;$('orderNote').value=o.note||'';view('calc');window.scrollTo({top:0,behavior:'smooth'})}});
+else if(b.dataset.a==='edit'){$('orderCustomer').value=o.customer||'';$('orderArticle').value=o.article||'';$('orderQty').value=o.qty||1;$('orderNote').value=o.note||'';view('calc');window.scrollTo({top:0,behavior:'smooth'})}
+else if(b.dataset.a==='label'){window.dispatchEvent(new CustomEvent('open-order-label',{detail:o}))}
+else if(b.dataset.a==='share-order'){window.dispatchEvent(new CustomEvent('share-order-data',{detail:o}))}
+else if(b.dataset.a==='copy-order'){window.dispatchEvent(new CustomEvent('copy-order-data',{detail:o}))}});
 render()}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
 </script>
 
 
+<script id="native-features-js">
+(function(){
+  'use strict';
+  const $=id=>document.getElementById(id);
+  const ORDER_KEY='3dcalc-orders-final';
+  const euro=v=>new Intl.NumberFormat('de-DE',{style:'currency',currency:'EUR'}).format(Number(v)||0);
+  const getOrders=()=>{try{const x=JSON.parse(localStorage.getItem(ORDER_KEY)||'[]');return Array.isArray(x)?x:[]}catch(e){return[]}};
+  const currentCalculationText=()=>{
+    const txt=id=>$(id)?.textContent?.trim()||'0,00 €';
+    const rows=Array.from(document.querySelectorAll('.filament-row')).map(r=>({g:r.querySelector('.fg')?.value||'',kg:r.querySelector('.fkg')?.value||'',note:r.querySelector('.fn')?.value||''}));
+    return [
+      '3D Kalkulator','',
+      'Verkaufspreis: '+txt('price'),
+      'Selbstkosten: '+txt('self'),
+      'Aufschlag/Rabatt: '+(txt('markup')),
+      '',
+      'Material: '+txt('bMaterial'),
+      'Strom: '+txt('bPower'),
+      'Drucker-Abschreibung: '+txt('bDep'),
+      'Verschleiß: '+txt('bWear'),
+      'Druckerarbeit / Setup: '+txt('bPrinter'),
+      'Konstruktion: '+txt('bBuild'),
+      'Nachbearbeitung: '+txt('bPost'),
+      'Modelldatei / Lizenz: '+txt('bLicense'),
+      'Sonstige Kosten: '+txt('bOther'),
+      'Betriebskosten: '+txt('bOverhead'),
+      '',
+      'Filamente: '+JSON.stringify(rows)
+    ].join('\n');
+  };
+  function flash(btn,label){if(!btn)return;const old=btn.textContent;btn.textContent=label;setTimeout(()=>btn.textContent=old,1400);}
+  async function shareText(text,title){
+    if(navigator.share){try{await navigator.share({title,text});return true}catch(e){if(e?.name==='AbortError')return false;}}
+    return false;
+  }
+  function download(name,text,type='text/plain'){
+    const blob=new Blob([text],{type});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+  }
+  async function copy(text,btn){try{await navigator.clipboard.writeText(text);flash(btn,'✓ Kopiert');}catch(e){download('3D-Kalkulation.txt',text);flash(btn,'✓ Datei erstellt');}}
+  function setTheme(mode){
+    if(mode==='dark'){document.body.classList.add('dark');localStorage.setItem('3dcalc-theme','dark');}
+    else if(mode==='light'){document.body.classList.remove('dark');localStorage.setItem('3dcalc-theme','light');}
+    else {localStorage.removeItem('3dcalc-theme');const dark=matchMedia('(prefers-color-scheme: dark)').matches;document.body.classList.toggle('dark',dark);}
+    const b=$('theme');if(b)b.textContent=document.body.classList.contains('dark')?'☀️':'☾';
+  }
+  function openSettings(){const m=$('settingsModal');if(!m)return;m.classList.add('open');m.setAttribute('aria-hidden','false');$('settingsOrderCount').textContent=getOrders().length;document.body.style.overflow='hidden';}
+  function closeSettings(){const m=$('settingsModal');if(!m)return;m.classList.remove('open');m.setAttribute('aria-hidden','true');document.body.style.overflow='';}
+  $('copyResult')?.addEventListener('click',e=>copy(currentCalculationText(),e.currentTarget));
+  $('shareResult')?.addEventListener('click',async e=>{const ok=await shareText(currentCalculationText(),'3D Kalkulator');if(!ok) {copy(currentCalculationText(),e.currentTarget);flash(e.currentTarget,'✓ Bereit zum Teilen');}});
+  $('openSettings')?.addEventListener('click',openSettings);
+  document.querySelectorAll('[data-close-settings]').forEach(x=>x.addEventListener('click',closeSettings));
+  document.querySelectorAll('[data-theme-choice]').forEach(b=>b.addEventListener('click',()=>setTheme(b.dataset.themeChoice)));
+  $('exportOrders')?.addEventListener('click',async e=>{
+    const data=JSON.stringify(getOrders(),null,2);
+    const ok=await shareText(data,'3D Kalkulator – Aufträge');
+    if(!ok)download('3D-Kalkulator-Auftraege.json',data,'application/json');
+    flash(e.currentTarget,'✓ Export erstellt');$('settingsOrderCount').textContent=getOrders().length;
+  });
+  $('exportCalculation')?.addEventListener('click',async e=>{
+    const text=currentCalculationText();const ok=await shareText(text,'3D Kalkulator – Kalkulation');if(!ok)download('3D-Kalkulation.txt',text);flash(e.currentTarget,'✓ Export erstellt');
+  });
+  $('clearOrders')?.addEventListener('click',()=>{
+    if(!getOrders().length)return;
+    if(confirm('Wirklich alle gespeicherten Aufträge löschen?')){localStorage.removeItem(ORDER_KEY);$('settingsOrderCount').textContent='0';document.getElementById('orderList')?.replaceChildren();document.getElementById('statOrders')&&(document.getElementById('statOrders').textContent='0');}
+  });
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')closeSettings();});
+})();
+</script>
+<script id="label-qr-features-js">
+(function(){
+  'use strict';
+  const $=id=>document.getElementById(id);
+  const euro=v=>new Intl.NumberFormat('de-DE',{style:'currency',currency:'EUR'}).format(Number(v)||0);
+  let activeOrder=null;
+  const orderText=o=>[
+    '3D Kalkulator',
+    'Auftrag: '+(o.article||''),
+    'Kunde: '+(o.customer||''),
+    'Menge: '+(o.qty||1),
+    'Verkaufspreis: '+euro(o.price),
+    'Status: '+(o.status||'Offen'),
+    'Auftrags-ID: '+(o.id||'')
+  ].join('\\n');
+  const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
+  function qrUrl(text){return 'https://api.qrserver.com/v1/create-qr-code/?size=300x300&margin=8&data='+encodeURIComponent(text)}
+  function open(o){
+    activeOrder=o; const text=orderText(o); const m=$('labelModal');
+    $('labelPreview').innerHTML=`<div class="brand">3D KALKULATOR</div><div class="label-title">${esc(o.article||'Auftrag')}</div><div class="label-meta">${esc(o.customer||'Ohne Kunde')} · ${Number(o.qty)||1} Stück</div><img src="${qrUrl(text)}" alt="QR-Code für ${esc(o.article||'Auftrag')}" loading="eager"><div class="label-meta"><strong>${esc(euro(o.price))}</strong> · ${esc(o.status||'Offen')}</div><div class="label-meta">ID: ${esc(o.id||'')}</div>`;
+    $('printLabelOnly').innerHTML=`<div class="print-label-box"><div class="ptitle">3D KALKULATOR</div><div class="pmeta">${esc(o.article||'Auftrag')}</div><div class="pmeta">${esc(o.customer||'Ohne Kunde')} · ${Number(o.qty)||1} Stück</div><img src="${qrUrl(text)}" alt="QR-Code"><div class="pmeta"><strong>${esc(euro(o.price))}</strong> · ${esc(o.status||'Offen')}</div><div class="pmeta">ID: ${esc(o.id||'')}</div></div>`;
+    m.classList.add('open');m.setAttribute('aria-hidden','false');document.body.style.overflow='hidden';
+  }
+  function close(){const m=$('labelModal');m.classList.remove('open');m.setAttribute('aria-hidden','true');document.body.style.overflow='';}
+  async function share(){if(!activeOrder)return;const text=orderText(activeOrder);if(navigator.share){try{await navigator.share({title:'3D Kalkulator – Auftrag',text});}catch(e){}}else{await navigator.clipboard?.writeText(text);}}
+  async function copy(){if(!activeOrder)return;const text=orderText(activeOrder);try{await navigator.clipboard.writeText(text);alert('Auftragsdaten wurden kopiert.')}catch(e){const a=document.createElement('textarea');a.value=text;document.body.appendChild(a);a.select();document.execCommand('copy');a.remove();alert('Auftragsdaten wurden kopiert.')}}
+  function download(){if(!activeOrder)return;const blob=new Blob([orderText(activeOrder)],{type:'text/plain;charset=utf-8'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='Auftrag-'+(activeOrder.id||'')+'.txt';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}
+  window.addEventListener('open-order-label',e=>open(e.detail));
+  window.addEventListener('share-order-data',async e=>{activeOrder=e.detail;await share()});
+  window.addEventListener('copy-order-data',async e=>{activeOrder=e.detail;await copy()});
+  document.querySelectorAll('[data-close-label]').forEach(x=>x.addEventListener('click',close));
+  $('printLabel')?.addEventListener('click',()=>window.print());
+  $('shareLabel')?.addEventListener('click',share);
+  $('copyLabel')?.addEventListener('click',copy);
+  $('downloadLabel')?.addEventListener('click',download);
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')close()});
+})();
+</script>
 <script id="pwa-register">
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
