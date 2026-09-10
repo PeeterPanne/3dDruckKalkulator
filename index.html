@@ -604,6 +604,31 @@ header{padding-top:max(14px,env(safe-area-inset-top));}
 #appSplash span{display:block;margin-top:7px;color:#9aa7ba;font-size:13px;}
 @media (prefers-reduced-motion:reduce){#appSplash{transition:none;}}
 </style>
+
+<style id="v21-compact-result-actions">
+  .native-actions{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:8px;
+    margin-top:10px;
+  }
+  .native-actions button{
+    width:auto !important;
+    min-width:0 !important;
+    min-height:44px;
+    padding:7px 12px !important;
+    font-size:13px !important;
+    line-height:1.2 !important;
+    border-radius:10px !important;
+    flex:0 0 auto !important;
+    white-space:nowrap;
+  }
+  @media (max-width:380px){
+    .native-actions{gap:6px}
+    .native-actions button{padding:7px 9px !important;font-size:12px !important}
+  }
+</style>
 </head>
 <body>
 <div id="appSplash" aria-hidden="true">
