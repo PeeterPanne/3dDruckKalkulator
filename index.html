@@ -691,7 +691,7 @@ header h1{white-space:nowrap !important}
        <div><label style="font-size:11px">Tage</label><input id="days" type="number" value="0" min="0" step="1" inputmode="numeric"></div>
        <div><label style="font-size:11px">Stunden</label><input id="hours" type="number" value="0" min="0" max="23" step="1" inputmode="numeric"></div>
        <div><label style="font-size:11px">Minuten</label><input id="minutes" type="number" value="0" min="0" max="59" step="1" inputmode="numeric"></div>
-       <div><label style="font-size:11px">Zeit (h)</label><input id="decimalHours" type="number" value="0" min="0" step="0.1" inputmode="decimal" placeholder="z. B. 34,9"></div>
+       <div><label style="font-size:11px">Zeit (h)</label><input id="decimalHours" type="number" value="" min="0" step="0.1" inputmode="decimal" placeholder="z. B. 34,9"></div>
      </div>
      <div id="decimalTimeHint" class="calc-live">Dezimalzeit ist auf 0 – Tage, Stunden und Minuten werden verwendet.</div></div>
     <div><label>Druckplatten / Starts</label><input id="plates" type="number" value="0" min="0" step="1" inputmode="numeric"></div>
@@ -1040,7 +1040,8 @@ header h1{white-space:nowrap !important}
     function initCalculatorState(){
       // Startzustand: nur die aktuellen Auftrags-/Kalkulatoreingaben zurücksetzen.
       // Die unter Einstellungen gespeicherten Kalkulationswerte bleiben vollständig unangetastet.
-      ['days','hours','minutes','decimalHours','plates','file','extra','design'].forEach(id=>{ if($(id)) $(id).value='0'; });
+      ['days','hours','minutes','plates','file','extra','design'].forEach(id=>{ if($(id)) $(id).value='0'; });
+      if($('decimalHours')) $('decimalHours').value='';
       mode='stranger';
       document.querySelectorAll('#modes button').forEach(x=>x.classList.toggle('active',x.dataset.v==='stranger'));
       if($('markupInput')) $('markupInput').value=modeMarkup[mode];
@@ -1094,7 +1095,8 @@ header h1{white-space:nowrap !important}
     function resetCalculatorInputs(){
       // Nur die aktuellen Auftrags-/Kalkulatoreingaben zurücksetzen.
       // Die App bleibt geöffnet und alle Kalkulationswerte aus Einstellungen bleiben unverändert.
-      ['days','hours','minutes','decimalHours','plates','file','extra','design','finish'].forEach(id=>{ if($(id)) $(id).value='0'; });
+      ['days','hours','minutes','plates','file','extra','design','finish'].forEach(id=>{ if($(id)) $(id).value='0'; });
+      if($('decimalHours')) $('decimalHours').value='';
 
       // Die Auswahl „Für wen wird gedruckt?“ bleibt erhalten.
       // Der Aufschlag wird passend zu dieser Auswahl wiederhergestellt.
