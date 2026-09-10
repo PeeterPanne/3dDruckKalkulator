@@ -1040,7 +1040,27 @@ header{padding-top:max(14px,env(safe-area-inset-top));}
         calc();
       }catch(err){console.warn(err);}
     });
-    $('reset')?.addEventListener('click',()=>location.reload());
+    function resetCalculatorInputs(){
+      // Nur die Eingaben des Kalkulators zurücksetzen – die App selbst bleibt geöffnet.
+      const zeroIds=['days','hours','minutes','decimalHours','plates','file','extra','design','finish','markupInput'];
+      zeroIds.forEach(id=>{ if($(id)) $(id).value='0'; });
+      if($('rounding')) $('rounding').value='0';
+
+      // Kalkulator-Modus auf den Standard zurücksetzen.
+      mode='stranger';
+      document.querySelectorAll('#modes button').forEach(x=>x.classList.toggle('active',x.dataset.v==='stranger'));
+
+      // Multi-Color deaktivieren und Filament-Eingabe auf 0 zurücksetzen.
+      multi=false;
+      $('multiToggle')?.classList.remove('on');
+      rows=[{g:0,kg:0,note:''}];
+      renderFilaments();
+
+      calc();
+      window.scrollTo({top:0,behavior:'smooth'});
+    }
+
+    $('reset')?.addEventListener('click',resetCalculatorInputs);
 
     // Initial calculation after the DOM and all inputs exist.
     requestAnimationFrame(calc);

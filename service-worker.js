@@ -1,4 +1,4 @@
-const CACHE_NAME = '3d-kalkulator-v5';
+const CACHE_NAME = '3d-kalkulator-v6';
 
 const APP_SHELL = [
   './',
