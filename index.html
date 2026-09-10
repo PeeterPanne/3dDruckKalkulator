@@ -166,6 +166,7 @@ h1{
   font-size:32px !important;
   line-height:1.02 !important;
   letter-spacing:-1.3px !important;
+  white-space:nowrap !important;
 }
 .sub{font-size:13px !important;margin-top:5px}
 .reset{
@@ -628,6 +629,15 @@ header{padding-top:max(14px,env(safe-area-inset-top));}
     .native-actions{gap:6px}
     .native-actions button{padding:7px 9px !important;font-size:12px !important}
   }
+</style>
+
+<style id="v13-header-nowrap">
+/* v13 – Titel bleibt auf einer Zeile */
+header > div:first-child{min-width:0}
+header h1{white-space:nowrap !important}
+@media(max-width:430px){
+  header h1{font-size:28px !important;letter-spacing:-1px !important;white-space:nowrap !important}
+}
 </style>
 </head>
 <body>
