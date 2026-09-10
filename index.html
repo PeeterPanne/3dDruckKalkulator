@@ -567,10 +567,27 @@ body{background:radial-gradient(620px 260px at 50% -60px,rgba(25,168,255,.12),tr
 .profit-positive{color:var(--green)}.profit-negative{color:var(--orange)}
 @media(max-width:700px){.orders-dashboard{grid-template-columns:1fr}.order-detail-grid{grid-template-columns:1fr}}
 </style>
+
+<style id="app-splash-style">
+#appSplash{position:fixed;inset:0;z-index:99999;display:grid;place-items:center;background:#070b12;color:#fff;opacity:1;visibility:visible;transition:opacity .35s ease,visibility .35s ease;pointer-events:auto;}
+#appSplash.hide{opacity:0;visibility:hidden;pointer-events:none;}
+#appSplash .splash-inner{text-align:center;padding:24px;}
+#appSplash img{display:block;width:128px;height:128px;margin:0 auto;border-radius:28px;object-fit:cover;box-shadow:0 18px 50px rgba(0,0,0,.45);}
+#appSplash strong{display:block;margin-top:18px;font-size:26px;line-height:1.1;font-weight:900;letter-spacing:-.5px;}
+#appSplash span{display:block;margin-top:7px;color:#9aa7ba;font-size:13px;}
+@media (prefers-reduced-motion:reduce){#appSplash{transition:none;}}
+</style>
 </head>
 <body>
+<div id="appSplash" aria-hidden="true">
+  <div class="splash-inner">
+    <img src="icons/icon-512.png" alt="3D Calc">
+    <strong>3D Kalkulator</strong>
+    <span>Dein 3D Druckkostenrechner</span>
+  </div>
+</div>
 <div class="app">
-<header><div><h1>3D Kalkulator</h1><div class="sub">Dein Bambu Lab Druckkostenrechner</div></div><div style="display:flex;gap:7px"><button class="theme" id="theme" aria-label="Darkmodus">☾</button><button class="reset" id="reset" aria-label="Zurücksetzen">↺</button></div></header>
+<header><div><h1>3D Kalkulator</h1><div class="sub">Dein 3D Druckkostenrechner</div></div><div style="display:flex;gap:7px"><button class="theme" id="theme" aria-label="Darkmodus">☾</button><button class="reset" id="reset" aria-label="Zurücksetzen">↺</button></div></header>
 <div class="orders-nav">
   <button type="button" id="showCalculator" class="active">
     <span class="nav-tile-icon calculator-icon" aria-hidden="true">
@@ -1035,6 +1052,21 @@ else if(b.dataset.a==='edit'){$('orderCustomer').value=o.customer||'';$('orderAr
 render()}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
+</script>
+
+
+<script id="pwa-register">
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./service-worker.js', {scope: './'})
+      .catch(err => console.warn('PWA Service Worker:', err));
+  });
+}
+</script>
+<script id="app-splash-hide">
+window.addEventListener('load', () => {
+  setTimeout(() => document.getElementById('appSplash')?.classList.add('hide'), 1500);
+});
 </script>
 
 </body></html>
