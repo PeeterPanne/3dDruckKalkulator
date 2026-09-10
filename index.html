@@ -1039,6 +1039,10 @@ header{padding-top:max(14px,env(safe-area-inset-top));}
     }
     initCalculatorState();
     renderFilaments();
+    // Beim App-Start bleiben Menge, Preis und Farbe der Filamente leer.
+    document.querySelectorAll('#filamentArea .fg').forEach(el=>el.value='');
+    document.querySelectorAll('#filamentArea .fkg').forEach(el=>el.value='');
+    document.querySelectorAll('#filamentArea .fn').forEach(el=>el.value='');
     $('multiToggle')?.addEventListener('click',()=>{
       multi=!multi;
       $('multiToggle').classList.toggle('on',multi);
@@ -1092,6 +1096,10 @@ header{padding-top:max(14px,env(safe-area-inset-top));}
       multi=false;
       $('multiToggle')?.classList.remove('on');
       renderFilaments();
+      // Menge, Preis und Farbe nach dem Reset garantiert leeren.
+      document.querySelectorAll('#filamentArea .fg').forEach(el=>el.value='');
+      document.querySelectorAll('#filamentArea .fkg').forEach(el=>el.value='');
+      document.querySelectorAll('#filamentArea .fn').forEach(el=>el.value='');
 
       calc();
       window.scrollTo({top:0,behavior:'smooth'});
